@@ -1,4 +1,4 @@
-# SciPy 2025 tutorial on [Reproducible Machine Learning Workflows for Scientists with Pixi](https://cfp.scipy.org/scipy2025/talk/GDN8PN/)
+# SciPy 2025 tutorial on [Reproducible Machine Learning Workflows for Scientists with Pixi](https://matthewfeickert-talks.github.io/reproducible-ml-for-scientists-with-pixi-scipy-2025/)
 
 ## Development
 
