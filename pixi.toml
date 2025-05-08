@@ -9,6 +9,10 @@ version = "0.1.0"
 description = "Build tutorial as static HTML website"
 cmd = "cd book && myst build --html"
 
+[tasks.clean]
+description = "Remove exports, temp files and installed templates"
+cmd = "cd book && myst clean --yes"
+
 [tasks.start]
 cmd = "cd book && myst start"
 
