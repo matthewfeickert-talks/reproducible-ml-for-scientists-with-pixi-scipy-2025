@@ -5,6 +5,10 @@ name = "reproducible-ml-for-scientists-with-pixi-scipy-2025"
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
+[tasks.build]
+description = "Build tutorial as static HTML website"
+cmd = "cd book && myst build --html"
+
 [tasks.start]
 cmd = "cd book && myst start"
 
