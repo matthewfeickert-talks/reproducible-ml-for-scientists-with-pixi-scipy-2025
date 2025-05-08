@@ -10,3 +10,4 @@ cmd = "cd book && myst start"
 
 [dependencies]
 mystmd = ">=1.3.26,<2"
+pre-commit = ">=4.2.0,<5"
