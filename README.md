@@ -16,4 +16,4 @@ For reference on MyST functionality and features reference the [MyST documentati
 
 ## Acknowledgments
 
-This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/), [Prefix.dev](https://prefix.dev/), and [NVIDIA](https://www.nvidia.com/).
+This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/) via grant [G-2022-19347](https://sloan.org/grant-detail/g-2022-19347) from the Sloan Foundation, [Prefix.dev](https://prefix.dev/), and [NVIDIA](https://www.nvidia.com/).
