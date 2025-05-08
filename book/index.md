@@ -78,9 +78,3 @@ As Linux containers are their own technology that can be quite complex, all Linu
 * Discussion over solutions to Exercise 5.
 * Time for participants to start exploring their own projects with `pixi`.
 * General question and answer time with instructor team.
-
-SciPy 2025 tutorial on
-
-```{literalinclude} ../pixi.toml
-:lang: toml
-```
