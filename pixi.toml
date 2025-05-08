@@ -8,6 +8,10 @@ version = "0.1.0"
 [tasks.start]
 cmd = "cd book && myst start"
 
+[tasks.lint]
+description = "Run pre-commit on all files in the repository"
+cmd = "pre-commit run --all-files"
+
 [dependencies]
 mystmd = ">=1.3.26,<2"
 pre-commit = ">=4.2.0,<5"
