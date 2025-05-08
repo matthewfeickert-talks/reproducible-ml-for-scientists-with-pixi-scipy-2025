@@ -78,3 +78,7 @@ As Linux containers are their own technology that can be quite complex, all Linu
 * Discussion over solutions to Exercise 5.
 * Time for participants to start exploring their own projects with `pixi`.
 * General question and answer time with instructor team.
+
+## Acknowledgments
+
+This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/), [Prefix.dev](https://prefix.dev/), and [NVIDIA](https://www.nvidia.com/).
