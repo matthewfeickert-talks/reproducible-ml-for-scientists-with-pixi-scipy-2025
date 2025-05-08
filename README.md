@@ -1,2 +1,1 @@
-# reproducible-ml-for-scientists-with-pixi-scipy-2025
-SciPy 2025 tutorial on "Reproducible Machine Learning Workflows for Scientists with pixi"
+# SciPy 2025 tutorial on [Reproducible Machine Learning Workflows for Scientists with Pixi](https://cfp.scipy.org/scipy2025/talk/GDN8PN/)
