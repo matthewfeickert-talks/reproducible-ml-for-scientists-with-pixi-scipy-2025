@@ -36,4 +36,4 @@ powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | i
 
 ### Pixi Shell completions
 
-Additionally, install the [Pixi shell completions](https://pixi.sh/latest/global_tools/introduction/#shell-completions) for your particular shell choice.
+Additionally, install the [Pixi shell completions](https://pixi.sh/latest/advanced/installation/#autocompletion) for your particular shell choice.
