@@ -7,4 +7,20 @@ CUDA
 
 GPU
 : Graphical processing unit
+
+TOML
+: Tom's Obvious, Minimal Language (TOML) is a data serialization language designed for configuration files
+: It is a simple, easy-to-read format that is easy to parse and generate
+
+PyPI
+: Python Package Index, the main package index for Python packages
+: It contains the packages you install using `pip install`
+
+cross-language
+: More than one programming language, not limited to Python
+
+cross-platform
+: More than one operating system, not limited to Windows, MacOS or Linux
+
+
 :::
