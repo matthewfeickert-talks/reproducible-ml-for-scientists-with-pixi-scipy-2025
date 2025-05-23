@@ -82,11 +82,7 @@ This is a great step forward, but it's not always the case. And doesn't guarante
 
 ---
 
-# Using Pixi
-Now that we know what Pixi is and why we need it, let's take a look at how to use it.
-
-
-## The project workflow
+# The project workflow
 Pixi is designed to be used in a project-based workflow.
 Tools like `poetry`, `uv`, `npm`, `deno`, `cargo`, `maven` and `pixi` are all designed to be used in a project-based workflow.
 This means that you can create a project and then use Pixi to manage the dependencies and tasks for that project.
@@ -138,7 +134,7 @@ To give a little background why Pixi is designed this way, let's take a look at 
 ::::
 
 
-## Creating a project
+# Creating a project
 As Pixi uses the project-based workflow, it uses a manifest file to keep track of the dependencies and tasks for the project.
 This is also known as **declarative** configuration, where you describe what you want, and Pixi will take care of the rest.
 The manifest file is called `pixi.toml`, or you can use `pyproject.toml`, and it is located in the root of the project.
@@ -232,19 +228,19 @@ The only difference between the two files is that the `pyproject.toml` file has 
 
 For the rest of this tutorial, we will use the `pixi.toml` file as the main file.
 
-### Platforms
+## Platforms
 The `platforms` field in the manifest file is used to specify the platforms
 **TODO**
 
-### Channels
+## Channels
 The `channels` field in the manifest file is used to specify the channels
 **TODO**
 
 
-## Managing dependencies
+# Managing dependencies
 After creating the project, you can start adding dependencies to the project.
 Pixi uses the `pixi add` command to add dependencies to the project.
-This command will add the dependency to the `pixi.toml` or `pyproject.toml` file, solve the dependencies, write the lockfile and install the package in the environment. e.g. lets add `numpy` and `pytest` to the project.
+This command will , by default, add the conda dependency to the `pixi.toml` or `pyproject.toml` file, solve the dependencies, write the lockfile and install the package in the environment. e.g. lets add `numpy` and `pytest` to the project.
 ```bash
 pixi add numpy pytest
 ```
@@ -268,11 +264,75 @@ numpy = ">=2.2.6,<3"
 pytest = ">=8.3.5,<9"
 ```
 
+## PyPI dependencies
+Pixi can also install packages from PyPI, it does this through it's integration with `uv`.
+In the Rust code Pixi depends on the `uv` package manager to install the packages from PyPI.
+This means that you can use the `pixi add --pypi` command to install packages from PyPI.
 
-### Lockfile
+```bash
+pixi add --pypi pydantic
+```
+
+Which results in it being added to the manifest file as:
+::::{tab-set}
+:::{tab-item}pixi.toml
+In the `pixi.toml` file, it will be added to the `[pypi-dependencies]` section.
+```{code} toml
+:filename: pixi.toml
+:linenos:
+[pypi-dependencies]
+pydantic = ">=2.11.5, <3"
+```
+:::
+:::{tab-item}pyproject.toml
+In the `pyproject.toml` file, it will be added to the `[project]` section in the normal case.
+```{code} toml
+:filename: pyproject.toml
+:linenos:
+[project]
+# ...
+dependencies = ["pydantic>=2.11.5,<3"]
+```
+Things like `path` and `editable` are added through the Pixi specific section.
+For example:
+```{code} toml
+:filename: pyproject.toml
+:linenos:
+[tool.pixi.pypi-dependencies]
+my_pyproject = { path = ".", editable = true }
+```
+:::
+::::
+
+
+What pixi does differently from managing PyPI packages through other package managers, is that it will install the packages in the same environment as the conda packages, but will not overwrite the conda packages.
+We've got a mapping between the conda packages and the PyPI packages, so that we can let `uv` know which packages to install and which packages to ignore because they are already installed.
+
+::: {note} Pixi doesn't install `uv`!
+While Pixi uses `uv` to install the PyPI packages, it doesn't install `uv` itself.
+So you cannot us `uv` directly in the project, without installing it first.
+:::
+
+## Special types of dependencies
+Pixi has a few special types of dependencies that you can use in the project.
+- `git`: You can use the `git` dependency to install packages from a git repository.
+- `path`: You can use the `path` dependency to install packages from a local directory.
+- `editable`: You can use the `editable` dependency to install packages in editable mode.
+- `url`: You can use the `url` dependency to install packages from a URL.
+**TODO**: Add more information about these dependencies.
+
+## Removing dependencies
+**TODO**: Add information about removing dependencies.
+
+## Updating dependencies
+**TODO**: Add information about updating dependencies.
+
+
+
+## Lockfile
 The lockfile is a file that contains the exact versions of the packages that were installed in the environment.
 This file is used to ensure that the same versions of the packages are installed in the environment when the project is shared with others.
-What should you know about the lockfile? 
+What should you know about the lockfile?
 - The lockfile is called `pixi.lock` and is located in the root of the project, next to the `pixi.toml` or `pyproject.toml` file.
 - The lockfile is a YAML file that contains the exact versions of the packages that were installed in the environment.
 - The lockfile is automatically (re-)generated when you `add`, `remove`, `update` a package in the project, or when you run `pixi install/run/shell/lock` and it's not existing yet.
@@ -308,12 +368,12 @@ packages:
 ```
 
 
-## Managing tasks
+# Managing tasks
 Pixi has a built-in {term}`cross-platform` task runner that allows you to define tasks in the manifest.
 This is a great way to share tasks with others and to ensure that the same tasks are run in the same environment.
 The tasks are defined in the `[tasks]` section.
 
-### Basic tasks
+## Basic tasks
 
 You can use the `pixi task` command to modify the tasks in the project.
 ```bash
@@ -332,7 +392,7 @@ pixi run hello
 ```
 This will run the `hello` task and print `Hello World` to the console.
 
-### Task arguments
+## Task arguments
 Now also have the ability to receive arguments in the task.
 ```bash
 pixi task add greet "echo Hello {{name | capitalize}}" --arg name
@@ -348,7 +408,7 @@ Using the [MiniJinja](https://github.com/mitsuhiko/minijinja) templating engine 
 Failing to provide the argument will result in an error.
 So it's sometimes recommended to provide a default value for the argument.
 You can replace the old task definition with the following:
-```{code} toml 
+```{code} toml
 :filename: pixi.toml
 greet = { cmd = "echo Hello {{name | capitalize}}", args = ["name"] }
 ```
@@ -360,7 +420,7 @@ with the following, this uses a nested table to make it more readable:
 :emphasize-lines: 3
 [tasks.greet]
 cmd = "echo Hello {{name | capitalize}}"
-args = [{arg = "name", default = "World"}] 
+args = [{arg = "name", default = "World"}]
 ```
 
 and run the task again:
@@ -373,7 +433,7 @@ Hello World
 
 This will run the `greet` task and print `Hello World` to the console.
 
-### Task Graph
+## Task Graph
 Pixi has a built-in task graph that allows you to define tasks that depend on other tasks.
 
 ```toml
@@ -395,7 +455,7 @@ fmt = "echo formatting"
 test = "echo testing"
 build = { cmd = "echo build command", depends-on = ["fmt","test"] }
 ```
-Resulting in: 
+Resulting in:
 ```bash
 ➜ pixi run build
 ✨ Pixi task (fmt): echo formatting
@@ -408,7 +468,7 @@ testing
 build command
 ```
 
-### Task caching
+## Task caching
 Pixi has a built-in task caching system that allows you to cache the results of tasks.
 This is a great way to speed up the build process and to avoid running the same tasks multiple times.
 
@@ -426,8 +486,24 @@ If the `pixi.toml` file has not changed and the `generated.txt` file exists, it 
 This feature is very useful for tasks that take a long time to run, like building a package or running tests.
 Often used for building or downloading large files.
 
+# Activating environments
+Now you know the basics of dealing with the Pixi manifest.
+Next step is actually using the environments.
+You have already seen the `pixi run` command, which will run the task in the environment.
+You can also use the `pixi shell` command to open a shell in the environment.
 
-## Managing environments
+Both commands will automatically activate the environment for you, so you don't have to worry about that.
+Activating an environment is not much more than running a script that sets the environment variables for you.
+To investigate this, you can use `pixi shell` to view what the shell script looks like.
+```bash
+pixi shell-hook
+```
+This will print the shell script that is used to activate the environment.
+
+- `pixi shell` will open a new shell and run that script in it.
+- `pixi run` will run the script in a subshell and then parse the changes to the environment variables. Which are then forwarded to the task runner.
+- `eval "$(pixi shell-hook)"` will run the script in the current shell and activate the environment in the running shell, this is the closest to `conda activate` or `source .venv/bin/activate`, but not recommended.
+
 
 
 # Managing global tools
