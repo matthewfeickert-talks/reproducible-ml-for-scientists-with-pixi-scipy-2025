@@ -229,12 +229,38 @@ The only difference between the two files is that the `pyproject.toml` file has 
 For the rest of this tutorial, we will use the `pixi.toml` file as the main file.
 
 ## Platforms
-The `platforms` field in the manifest file is used to specify the platforms
-**TODO**
+The `platforms` field is a required field as it describes the platforms that the project is intended to run on.
+Pixi will create the lockfile for all platforms that are specified in the `platforms` field.
+
+Here is a list of the most common platforms that Pixi supports:
+- `osx-arm64`: macOS on Apple Silicon (M1, etc.)
+- `osx-64`: macOS on Intel (older Macs)
+- `linux-64`: Linux on Intel/AMD (most common Linux platform)
+- `linux-aarch64`: Linux on ARM (Raspberry Pi, etc.)
+- `win-64`: Windows on Intel/AMD (most common Windows platform)
+- `win-arm64`: Windows on ARM (Surface Pro X, etc.)
+
+The `platforms` field is always a list of these strings.
+
 
 ## Channels
-The `channels` field in the manifest file is used to specify the channels
-**TODO**
+The `channels` field is a required field that describes the channels that Pixi will use to install packages from.
+The channels are URLs that point to the package repositories that Pixi will use to install packages.
+
+The most common channel is the `conda-forge` channel, which is a community-driven channel that provides a lot of packages.
+There are much more channels available, like `bioconda`, `pytorch`, `rapidsai`, and many more.
+A channel can have multiple forms:
+- A channel name, like `conda-forge`, which Pixi will resolve to the URL `https://conda.anaconda.org/conda-forge` because conda.anaconda.org is the biggest host for conda channels.
+- A URL to a channel, like `https://prefix.dev/conda-forge` or `https://conda.anaconda.org/conda-forge`
+- A local directory, like `file:///path/to/local/channel`
+
+The `channels` field has a priority order, meaning that Pixi will first try to install packages from the first channel, then the second channel, and so on. Learn more about this in the [`channels` documentation](https://pixi.sh/latest/advanced/channel_logic/).
+
+:::{tip} Prefix.dev channels have improved performance
+Prefix.dev are not the default, but they are the recommended channels to use.
+They are optimized for performance and have the most important channels mirrored, like `conda-forge`, `bioconda`, and more.
+See why it's so much faster in [the blog post](https://prefix.dev/blog/sharded_repodata).
+:::
 
 
 # Managing dependencies
@@ -263,6 +289,32 @@ version = "0.1.0"
 numpy = ">=2.2.6,<3"
 pytest = ">=8.3.5,<9"
 ```
+
+If you want a specific version of a package, you can specify the version in the command.
+```bash
+pixi add numpy==2.2.6 pytest==8.3.5
+```
+Or you can make it more specific by using multiple types of specifiers.
+For the versions you can use the following specifiers:
+- `==`: Exact version, e.g. `numpy==2.2.6`
+- `>=`: Minimum version, e.g. `numpy>=2.2.6`
+- `<=`: Maximum version, e.g. `numpy<=2.2.6`
+- `>`: Greater than version, e.g. `numpy>2.2.6`
+- `<`: Less than version, e.g. `numpy<2.2.6`
+- `!=`: Not equal to version, e.g. `numpy!=2.2.6`
+- `~=`: Compatible release, e.g. `numpy~=2.2.6` (equivalent to `>=2.2.6, <3`)
+
+All of these specifiers can be combined, e.g. `numpy>=2.2.6,<3`, or `numpy~=2.2.6,!=2.2.7`.
+
+For the `[dependencies]` section, Pixi supports the conda MatchSpec format, which includes:
+| Field| Example | Comment |
+|---|---|---|
+| `name` | `numpy = "*"` |The name of the package, without the version specifier |
+| `version` | `numpy = ">=2.2.6,<3"` <br> `numpy = {version = "==2.2.6"}` | The version specification of the package. |
+| `build` | `numpy = {build = "py39h1234567_0"}` | The build string of the package |
+| `build_number` | `numpy = {build_number = 0}` | The build number of the package |
+| `channel` | `numpy = {channel = "conda-forge"}` | The channel where to get the package from (must be defined in `[workspace]`) |
+| `license` | `numpy = {license = "BSD-3-Clause"}` | The license of the package |
 
 ## PyPI dependencies
 Pixi can also install packages from PyPI, it does this through it's integration with `uv`.
@@ -313,20 +365,42 @@ While Pixi uses `uv` to install the PyPI packages, it doesn't install `uv` itsel
 So you cannot us `uv` directly in the project, without installing it first.
 :::
 
-## Special types of dependencies
+### Special types of `pypi-dependencies`
 Pixi has a few special types of dependencies that you can use in the project.
-- `git`: You can use the `git` dependency to install packages from a git repository.
-- `path`: You can use the `path` dependency to install packages from a local directory.
-- `editable`: You can use the `editable` dependency to install packages in editable mode.
-- `url`: You can use the `url` dependency to install packages from a URL.
-**TODO**: Add more information about these dependencies.
+
+| Type | Description | Example |
+|---|---|---|
+| `git` | Install a package from a git repository | `git = "https://github.com/user/repo.git"`|
+| `branch` | Install a specific branch from a git repository (requires `git`) | `branch = "main"` |
+| `tag` | Install a specific tag from a git repository (requires `git`)| `tag = "v1.0.0"` |
+| `rev` | Install a specific commit from a git repository (requires `git`) | `rev = "abc123"` |
+| `path` | Install a package from a local directory | `path = "./local-python-package"` |
+| `editable` | Install a package in editable mode | `editable = true` |
+| `url` | Install a package from a URL | `url = "https://example.com/package.whl"` |
+
+
 
 ## Removing dependencies
-**TODO**: Add information about removing dependencies.
+You can use the `pixi remove` command to remove dependencies from the project.
+```bash
+pixi remove numpy pytest
+```
+This will remove the `numpy` and `pytest` dependencies from the manifest file, update the lockfile and remove the packages from the environment.
+You can also just remove the package from the manifest file and run `pixi install` to remove the package from the environment.
+
 
 ## Updating dependencies
-**TODO**: Add information about updating dependencies.
+You can use the `pixi update` command to update dependencies in the project.
+```bash
+pixi update numpy pytest
+# Or to update all dependencies
+pixi update
+# Or update to a specific version
+pixi update numpy==2.2.6
+```
 
+This will update the `numpy` and `pytest` dependencies in the manifest file, update the lockfile and update the packages in the environment.
+You can also just update the version in the manifest file and run `pixi install` to update the package in the environment.
 
 
 ## Lockfile
@@ -486,25 +560,124 @@ If the `pixi.toml` file has not changed and the `generated.txt` file exists, it 
 This feature is very useful for tasks that take a long time to run, like building a package or running tests.
 Often used for building or downloading large files.
 
-# Activating environments
-Now you know the basics of dealing with the Pixi manifest.
-Next step is actually using the environments.
-You have already seen the `pixi run` command, which will run the task in the environment.
-You can also use the `pixi shell` command to open a shell in the environment.
+# Environments
+Now you know the basics of dealing with the Pixi manifest basics.
+Next step is actually use the environments it can create for you.
 
-Both commands will automatically activate the environment for you, so you don't have to worry about that.
-Activating an environment is not much more than running a script that sets the environment variables for you.
-To investigate this, you can use `pixi shell` to view what the shell script looks like.
+## Activating environments
+Because Pixi creates virtual environments for you, it is important to activate the environment before running any commands.
+You can do this by using the `pixi shell` or the `pixi run` command, these commands will automatically activate the environment for you.
+
+```bash
+pixi run python -VV
+# or:
+pixi shell
+python -VV
+exit
+```
+
+Activating an environment is not alot more than running a script that sets the environment variables for you.
+To investigate this, you can use `pixi shell-hook` to view what the shell script looks like.
 ```bash
 pixi shell-hook
 ```
 This will print the shell script that is used to activate the environment.
 
-- `pixi shell` will open a new shell and run that script in it.
-- `pixi run` will run the script in a subshell and then parse the changes to the environment variables. Which are then forwarded to the task runner.
-- `eval "$(pixi shell-hook)"` will run the script in the current shell and activate the environment in the running shell, this is the closest to `conda activate` or `source .venv/bin/activate`, but not recommended.
 
+## Multiple environments
+Pixi can create multiple environments for you, so you can easily switch between them.
+This is similar to how `conda` works, but Pixi keeps them specific to the project.
 
+:::{note} Multi environment feature as if it was LEGO.
+:class: dropdown
+Pixi helps you make different LEGO sets (`environments`) using bags of parts (`feature`s). You can reuse parts for multiple sets without copying them.
 
-# Managing global tools
-*Maybe add a section about managing global tools*
+LEGO sets (`environments`):
+- One set is for playing (has lots of fun tools).
+- One set is for testing (has only what you need to check if stuff works).
+- One set is for shipping (super clean, just what’s needed to run).
+
+Bags of parts (`features`):
+- One bag has all the tools you need to play.
+- One bag has all the tools you need to test.
+- One bag has all the tools you need to ship.
+
+By combining these bags, you can make all the different LEGO sets you want.
+Keeping every set clean and tidy, without duplicating the parts around.
+:::
+
+The best way to explain this is to give an example.
+
+```{code} toml
+[dependencies] # Read this as `[feature.default.dependencies]`
+python = ">=3.11,<3.12"
+[feature.test.dependencies]
+pytest = ">=8.3.5,<9"
+[feature.format.dependencies]
+ruff = "*"
+
+[environments]
+# A development environment with all the tools to play with
+dev = ["test", "format"]
+
+# A testing environment with only the tools to test, great for CI
+test = ["test"]
+
+# A production environment with only the tools to run the code
+# The default feature is always included, so you don't need to specify it
+prod = []
+
+# A minimal environment with only the tools to format the code
+format = { features = ["format"] , no-default-feature = true }
+```
+This will create the following environments:
+
+| Environment | Features | Dependencies |
+| --- | --- | --- |
+| `dev` | `test`, `format`, `default` | `python`, `pytest`, `ruff` |
+| `test` | `test`, `default` | `python`, `pytest` |
+| `prod` | `default` | `python` |
+| `format` | `format` | `ruff` |
+| `default` | `default` | `python` |
+
+More information about the features can be found in the [documentation](https://pixi.sh/latest/workspace/multi_environment).
+
+## System Requirements
+Pixi is designed to work on all major operating systems, including Linux, macOS, and Windows.
+These systems can introduce specific requriements to the packages that are installed.
+To make sure the environment works on most system, pixi will automatically add a "best effort" system requirement to the environment.
+You can modify these by adding the `[system-requirements]` section to the manifest file.
+```toml
+[system-requirements]
+cuda = "12.8"
+```
+This will tell Pixi that it can expect CUDA 12.8 to be available on the system.
+Thus it will solve the dependencies with this in mind.
+The `sytem-requirements` are environment specific, through using the feature system you can add them per environment.
+```toml
+[workspace]
+platforms = ["linux-64"]
+channels = ["https://prefix.dev/conda-forge"]
+
+[dependencies]
+pytorch = "*"
+
+[feature.cuda.system-requirements]
+cuda = "12.8"
+
+[environments]
+gpu = ["cuda"]
+```
+This will result in these environments:
+```
+➜ pixi list --explicit --platform linux-64 --environment default
+Package  Version  Build
+pytorch  2.7.0    cpu_mkl_py312_h6a7998d_100
+
+➜ pixi list --explicit --platform linux-64 --environment gpu
+Environment: gpu
+Package  Version  Build
+pytorch  2.7.0    cuda126_mkl_py312_h30b5a27_300
+```
+
+**TODO**: ask John for recommended way to install CUDA dependencies.

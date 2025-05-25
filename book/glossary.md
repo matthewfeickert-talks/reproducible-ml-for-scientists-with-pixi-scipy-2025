@@ -20,7 +20,7 @@ cross-language
 : More than one programming language, not limited to Python
 
 cross-platform
-: More than one operating system, not limited to Windows, MacOS or Linux
+: More than one operating system, not limited to Windows, macOS or Linux
 
 
 :::
