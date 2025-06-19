@@ -43,6 +43,7 @@ project:
     - file: setup.md
     - file: introduction.md
     - file: pixi.md
+    - file: pixi-exercise.md
     - file: conda.md
     - file: cuda.md
     # appendix
