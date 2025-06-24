@@ -8,7 +8,8 @@ This tutorial requires minimal software to be installed in advance:
 
 * A computer running an 64 bit version of Linux, macOS, or Windows.
    - At the moment a laptop is required and an ARM based tablet will not be sufficient.
-* Pixi
+* [Pixi](https://pixi.sh/)
+* [Git](https://git-scm.com/) (optional, but encouraged)
 
 ### Hardware (optional)
 
@@ -25,8 +26,23 @@ You must be in-person at the tutorial to receive the code.
 
 :::
 
+
+### Web Platforms (optional, but encouraged)
+
+* [GitHub](https://github.com/)
+
+For this tutorial we would like you to create your own Git repository where you add the results of your work as you move through the tutorial so that you have a sharable form of what you have learned by the end.
+It doesn't _need_ to be GitHub (GitLab.com or some other alternative exist) but for the sake of consistency, the instructions will assume you are using GitHub.
+
+::: {attention} GitHub mandatory two-factor authentication
+
+As [GitHub requires two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/about-mandatory-two-factor-authentication), it is highly recommended that you [generate an SSH key pair](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) specifically for GitHub, [add the generated SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), and then use your SSH keys to connect with GitHub.
+
+:::
+
 ## Installation
 
+(install-pixi)=
 ### Pixi
 
 To install Pixi follow [the installation instructions](https://pixi.sh/latest/#installation) for your particular machine and then restart your shell.
@@ -57,6 +73,23 @@ powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | i
 
 Additionally, install the [Pixi shell completions](https://pixi.sh/latest/advanced/installation/#autocompletion) for your particular shell choice.
 
+### Git
+
+You probably already have Git installed on your machine.
+You can check with
+
+```bash
+command -v git
+```
+
+If the command doesn't return a filepath to the `git` executable, first make sure you have [Pixi installed](#install-pixi), as described above, and then run
+
+```bash
+pixi global install git
+```
+
+You can now use the Git anywhere on your machine.
+
 ### Brev
 
 #### Brev CLI
@@ -78,7 +111,7 @@ To participate in the GPU component of the workshop with Brev on a Windows machi
 
 
 For the portion of the tutorial where GPUs will be used we'll be working on an [NVIDIA Brev instance](https://developer.nvidia.com/brev).
-To install the CLI API for Brev, we'll use [`pixi global`](https://pixi.sh/latest/global_tools/introduction/) so make sure you have Pixi installed first as described above and then run
+To install the CLI API for Brev, we'll use [`pixi global`](https://pixi.sh/latest/global_tools/introduction/) so make sure you first have [Pixi installed](#install-pixi), as described above, and then run
 
 ```bash
 pixi global install brev
@@ -113,3 +146,9 @@ brev login
 1. Upon login success you'll be shown your Brev account on the GPUs tab.
 
 :::
+
+### GitHub Repository Setup
+
+1. Create a personal [GitHub account](https://github.com/) if you don’t have one yet.
+1. Navigate to your GitHub profile (https://github.com/) and click the "`+`" icon in the upper right hand side to create a new repository.
+1. Name the new repository `reproducible-ml-for-scientists-tutorial-scipy-2025`, make it public, and give it a README and an [open source license](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository) (e.g. MIT License).
