@@ -6,14 +6,14 @@ Scientific software enables all of this work to happen, but software isn't a sta
 Having the software you're using change without you intending it from day-to-day, run-to-run, or on different machines is problematic when trying to do high quality research and can cause software bugs, errors in scientific results, and make findings unreproducible.
 All of these things are not desirable!
 
-::: {important}
+::: {note} Scientific software
 
-When discussing "software" in this tutorial we will primarily be meaning open source software that is openly developed.
+When discussing scientific "software" in this tutorial we will primarily be meaning open source software that is openly developed (like the [Scientific Python](https://scientific-python.org/) ecosystem).
 However, there are situations in which software might (for good reason) be:
 
-* Closed development with open source release artifacts
-* Closed development and closed source with public binary distributions
-* Closed development and closed source with proprietary licenses
+* Closed development with open source release artifacts (e.g. [Pythia 8](https://gitlab.com/Pythia8/releases) (particle physics))
+* Closed development and closed source with public binary distributions (e.g. [CUDA](https://developer.nvidia.com/cuda-zone))
+* Closed development and closed source with proprietary licensed binary distributions (e.g. MATLAB, Mathematica)
 
 :::
 
