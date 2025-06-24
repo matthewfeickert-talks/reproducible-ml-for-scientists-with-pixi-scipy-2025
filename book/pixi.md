@@ -10,8 +10,6 @@ There are two main features:
 - Installing tools globally (`pixi global`)
 - Project workflow
 
-This tutorial will mainly focus on the Project workflow side of Pixi. More information about `pixi global` can be found [here](https://pixi.sh/latest/global_tools/introduction/)
-
 # What does Pixi solve?
 Pixi's goal is to solve fast reproducible developer and deployment workflows.
 Often written as *"it worked on my machine"*.
@@ -63,23 +61,16 @@ Pixi can install packages from both ecosystems, but it is recommended to use con
 | Package index | [`conda-forge`](https://prefix.dev/channels/conda-forge), [`bioconda`](https://prefix.dev/channels/bioconda), and more | [pypi.org](https://pypi.org) |
 
 ## Why do I need conda if I have PyPI? (Shared Libraries)
-Conda packages are designed with the idea of shared libraries in mind.
-This means that when you install a package, it will also install all the dependencies that are required to run the package.
-These dependencies have to be ABI compatible with the package, meaning that they have to be compiled with the same compiler and flags as the package itself.
-This is important because many packages require shared libraries to run, and these libraries are often not included in the package itself.
-This is important because many packages require shared libraries to run, and these libraries are often not included in the package itself.
-A good example of this is the `numpy` package, which requires the `openblas` library to run.
-When you install `numpy` using conda, it will automatically install these libraries for you.
-This is not the case with PyPI, where you often have to install these libraries manually, or use a package manager like `apt` or `brew` to install them.
-
-This is also one of the reasons Linux distributions like Ubuntu and Debian have their own package managers, like `apt` and `dpkg`.
-These package managers are designed to install packages that are compatible with the system libraries, and they often have a lot of dependencies that need to be installed as well.
+Conda packages handle shared libraries automatically: when you install a package (like `numpy`), all required dependencies (such as `openblas`) are installed and guaranteed to be ABI compatible. In contrast, PyPI packages often require you to install system libraries manually (using tools like `apt` or `brew`), which can lead to compatibility issues.
 
 :::{note} PyPI wheels
-These days, PyPI wheels often ship their required shared libraries within the wheel itself.
-This is a great step forward, but it's not always the case. And doesn't guarantee the ABI compatibility across the different packages.
+Many PyPI wheels now bundle shared libraries, but this isn't universal and doesn't always ensure ABI compatibility, and potentially grows the package sizes.
 :::
 
+:::{note} Pixi lets you use both!
+Pixi can install packages from both conda and PyPI, so you can use the best of both worlds.
+Without letting them conflict with each other.
+:::
 ---
 
 # The project workflow
@@ -272,7 +263,7 @@ pixi add numpy pytest
 ```
 This will result in the following manifest file:
 
-```{code}
+```{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 11
@@ -379,30 +370,6 @@ Pixi has a few special types of dependencies that you can use in the project.
 | `url` | Install a package from a URL | `url = "https://example.com/package.whl"` |
 
 
-
-## Removing dependencies
-You can use the `pixi remove` command to remove dependencies from the project.
-```bash
-pixi remove numpy pytest
-```
-This will remove the `numpy` and `pytest` dependencies from the manifest file, update the lockfile and remove the packages from the environment.
-You can also just remove the package from the manifest file and run `pixi install` to remove the package from the environment.
-
-
-## Updating dependencies
-You can use the `pixi update` command to update dependencies in the project.
-```bash
-pixi update numpy pytest
-# Or to update all dependencies
-pixi update
-# Or update to a specific version
-pixi update numpy==2.2.6
-```
-
-This will update the `numpy` and `pytest` dependencies in the manifest file, update the lockfile and update the packages in the environment.
-You can also just update the version in the manifest file and run `pixi install` to update the package in the environment.
-
-
 ## Lockfile
 The lockfile is a file that contains the exact versions of the packages that were installed in the environment.
 This file is used to ensure that the same versions of the packages are installed in the environment when the project is shared with others.
@@ -465,100 +432,6 @@ You can also use the `pixi run` command to run the tasks in the project.
 pixi run hello
 ```
 This will run the `hello` task and print `Hello World` to the console.
-
-## Task arguments
-Now also have the ability to receive arguments in the task.
-```bash
-pixi task add greet "echo Hello {{name | capitalize}}" --arg name
-```
-This will add a new task called `greet` to the project, which will print `Hello {{name}}` to the console.
-You can also use the `pixi run` command to run the tasks in the project.
-```bash
-pixi run greet matthew
-```
-This will run the `greet` task and print `Hello Matthew` to the console.
-Using the [MiniJinja](https://github.com/mitsuhiko/minijinja) templating engine integration, it has capitalized the name.
-
-Failing to provide the argument will result in an error.
-So it's sometimes recommended to provide a default value for the argument.
-You can replace the old task definition with the following:
-```{code} toml
-:filename: pixi.toml
-greet = { cmd = "echo Hello {{name | capitalize}}", args = ["name"] }
-```
-with the following, this uses a nested table to make it more readable:
-
-```{code} toml
-:filename: pixi.toml
-:linenos:
-:emphasize-lines: 3
-[tasks.greet]
-cmd = "echo Hello {{name | capitalize}}"
-args = [{arg = "name", default = "World"}]
-```
-
-and run the task again:
-
-```bash
-➜ pixi run greet
-✨ Pixi task (greet): echo Hello World
-Hello World
-```
-
-This will run the `greet` task and print `Hello World` to the console.
-
-## Task Graph
-Pixi has a built-in task graph that allows you to define tasks that depend on other tasks.
-
-```toml
-[tasks]
-greet-matthew = [{ task = "greet", args = ["Matthew"] }]
-
-[tasks.greet]
-cmd = "echo Hello {{name | capitalize}}"
-args = [{arg = "name", default = "World"}]
-```
-This will add a new task called `greet-matthew` that depends on the `greet` task.
-It also shows how to use the `args` field to pass arguments to the task.
-
-You can also have multiple tasks that depend on the same task.
-A classic pseudo example would be to have a `build` task that depends on a `fmt` and `test` task.
-```toml
-[tasks]
-fmt = "echo formatting"
-test = "echo testing"
-build = { cmd = "echo build command", depends-on = ["fmt","test"] }
-```
-Resulting in:
-```bash
-➜ pixi run build
-✨ Pixi task (fmt): echo formatting
-formatting
-
-✨ Pixi task (test): echo testing
-testing
-
-✨ Pixi task (build): echo build command
-build command
-```
-
-## Task caching
-Pixi has a built-in task caching system that allows you to cache the results of tasks.
-This is a great way to speed up the build process and to avoid running the same tasks multiple times.
-
-You can add the files you want to base the cache on in the task definition.
-```toml
-[tasks.generate]
-cmd = "echo foo > generated.txt"
-inputs = ["pixi.toml"]
-outputs = ["generated.txt"]
-```
-
-Now when you run the task, it will check if the `pixi.toml` file has changed and if the `generated.txt` file exists.
-If the `pixi.toml` file has not changed and the `generated.txt` file exists, it will skip the task and use the cached result.
-
-This feature is very useful for tasks that take a long time to run, like building a package or running tests.
-Often used for building or downloading large files.
 
 # Environments
 Now you know the basics of dealing with the Pixi manifest basics.
@@ -641,43 +514,3 @@ This will create the following environments:
 | `default` | `default` | `python` |
 
 More information about the features can be found in the [documentation](https://pixi.sh/latest/workspace/multi_environment).
-
-## System Requirements
-Pixi is designed to work on all major operating systems, including Linux, macOS, and Windows.
-These systems can introduce specific requriements to the packages that are installed.
-To make sure the environment works on most system, pixi will automatically add a "best effort" system requirement to the environment.
-You can modify these by adding the `[system-requirements]` section to the manifest file.
-```toml
-[system-requirements]
-cuda = "12.8"
-```
-This will tell Pixi that it can expect CUDA 12.8 to be available on the system.
-Thus it will solve the dependencies with this in mind.
-The `sytem-requirements` are environment specific, through using the feature system you can add them per environment.
-```toml
-[workspace]
-platforms = ["linux-64"]
-channels = ["https://prefix.dev/conda-forge"]
-
-[dependencies]
-pytorch = "*"
-
-[feature.cuda.system-requirements]
-cuda = "12.8"
-
-[environments]
-gpu = ["cuda"]
-```
-This will result in these environments:
-```
-➜ pixi list --explicit --platform linux-64 --environment default
-Package  Version  Build
-pytorch  2.7.0    cpu_mkl_py312_h6a7998d_100
-
-➜ pixi list --explicit --platform linux-64 --environment gpu
-Environment: gpu
-Package  Version  Build
-pytorch  2.7.0    cuda126_mkl_py312_h30b5a27_300
-```
-
-**TODO**: ask John for recommended way to install CUDA dependencies.
