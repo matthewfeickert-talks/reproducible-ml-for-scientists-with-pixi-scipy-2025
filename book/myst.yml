@@ -24,7 +24,7 @@ project:
       id: ruben-arts
       affiliations:
         - id: prefix
-          institution: Prefix.dev
+          institution: prefix.dev GmbH
       github: ruben-arts
 
     - name: "John Kirkham"
