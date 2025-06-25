@@ -303,7 +303,7 @@ To "prove" that this works, we can ask for the CUDA enabled version of PyTorch
 pixi add --platform linux-64 pytorch-gpu
 ```
 ```
-✔ Added pytorch-gpu >=2.7.0,<3
+✔ Added pytorch-gpu >=2.7.1,<3
 Added these only for platform(s): linux-64
 ```
 ```bash
@@ -311,9 +311,9 @@ pixi list --platform linux-64 torch
 ```
 ```
 Package      Version  Build                           Size       Kind   Source
-libtorch     2.7.0    cuda126_mkl_h99b69db_300        566.9 MiB  conda  https://conda.anaconda.org/conda-forge/
-pytorch      2.7.0    cuda126_mkl_py312_h30b5a27_300  27.8 MiB   conda  https://conda.anaconda.org/conda-forge/
-pytorch-gpu  2.7.0    cuda126_mkl_ha999a5f_300        46.1 KiB   conda  https://conda.anaconda.org/conda-forge/
+libtorch     2.7.1    cuda126_mkl_hc2b21a2_300        532.5 MiB  conda  https://conda.anaconda.org/conda-forge/
+pytorch      2.7.1    cuda126_mkl_py312_h30b5a27_300  28 MiB     conda  https://conda.anaconda.org/conda-forge/
+pytorch-gpu  2.7.1    cuda126_mkl_ha999a5f_300        46.6 KiB   conda  https://conda.anaconda.org/conda-forge/
 ```
 
 ```toml
@@ -323,17 +323,17 @@ name = "cuda-example"
 platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
-[system-requirements]
-cuda = "12"
-
 [tasks]
 
 [dependencies]
 cuda-version = "12.9.*"
 
+[system-requirements]
+cuda = "12"
+
 [target.linux-64.dependencies]
 cuda = ">=12.9.1,<13"
-pytorch-gpu = ">=2.7.0,<3"
+pytorch-gpu = ">=2.7.1,<3"
 ```
 
 
