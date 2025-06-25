@@ -43,8 +43,7 @@ project:
     - file: setup.md
     - file: introduction.md
     - file: pixi.md
-    - file: conda.md
-    - file: cuda.md
+    - file: cuda-conda.md
     # appendix
     - file: glossary.md
 
