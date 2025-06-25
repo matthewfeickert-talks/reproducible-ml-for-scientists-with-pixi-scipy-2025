@@ -421,8 +421,8 @@ Active GPU name: NVIDIA L4
 
 Create a new Pixi workspace that:
 
-* Contains an environment for `linux-64`, `osx-arm64`, and `win-64` that supports the CPU version of PyTorch
-* Contains an environment for `linux-64` that supports the GPU version of PyTorch
+* Contains an environment named `cpu` for `linux-64`, `osx-arm64`, and `win-64` that supports the CPU version of PyTorch
+* Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch
 * Supports CUDA `v12.9`
 
 ::: {hint} Solution
@@ -461,7 +461,16 @@ version = "0.1.0"
 [dependencies]
 ```
 
-Add `pytorch-cpu` to a `cpu` feature
+As a common requirement across all environments, let's add Python
+
+```bash
+pixi add python
+```
+```
+✔ Added python >=3.13.5,<3.1
+```
+
+Now, add `pytorch-cpu` to a `cpu` feature
 
 ```bash
 pixi add --feature cpu pytorch-cpu
@@ -486,7 +495,7 @@ and then instantiate the `pytorch-cpu` package with a particular version and sol
 pixi add --feature cpu pytorch-cpu
 ```
 ```
-✔ Added pytorch-cpu >=1.1.0,<3
+✔ Added pytorch-cpu >=2.7.1,<3
 Added these only for feature: cpu
 ```
 
@@ -500,9 +509,10 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
 
 [feature.cpu.dependencies]
-pytorch-cpu = ">=1.1.0,<3"
+pytorch-cpu = ">=2.7.1,<3"
 
 [environments]
 cpu = ["cpu"]
@@ -524,9 +534,10 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
 
 [feature.cpu.dependencies]
-pytorch-cpu = ">=1.1.0,<3"
+pytorch-cpu = ">=2.7.1,<3"
 
 [feature.gpu.system-requirements]
 cuda = "12"
@@ -554,9 +565,10 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
 
 [feature.cpu.dependencies]
-pytorch-cpu = ">=1.1.0,<3"
+pytorch-cpu = ">=2.7.1,<3"
 
 [feature.gpu.system-requirements]
 cuda = "12"
@@ -573,7 +585,7 @@ pixi add --platform linux-64 --feature gpu 'cuda-version 12.9.*' pytorch-gpu
 ```
 ```
 ✔ Added cuda-version 12.9.*
-✔ Added pytorch-gpu >=2.7.0,<3
+✔ Added pytorch-gpu >=2.7.1,<3
 Added these only for platform(s): linux-64
 Added these only for feature: gpu
 ```
@@ -588,16 +600,17 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
 
 [feature.cpu.dependencies]
-pytorch-cpu = ">=1.1.0,<3"
+pytorch-cpu = ">=2.7.1,<3"
 
 [feature.gpu.system-requirements]
 cuda = "12"
 
 [feature.gpu.target.linux-64.dependencies]
 cuda-version = "12.9.*"
-pytorch-gpu = ">=2.7.0,<3"
+pytorch-gpu = ">=2.7.1,<3"
 
 [environments]
 cpu = ["cpu"]
@@ -617,13 +630,13 @@ and activate shells with different environments loaded
 pixi shell --environment cpu
 ```
 
-So in 23 lines of TOML
+So in 24 lines of TOML
 
 ```bash
 wc -l pixi.toml
 ```
 ```
-23 pixi.toml
+24 pixi.toml
 ```
 
 we created separate CPU and GPU computational environments that are now fully reproducible with the associated `pixi.lock`!
