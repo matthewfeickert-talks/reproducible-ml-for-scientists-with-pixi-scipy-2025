@@ -306,6 +306,53 @@ jobs:
 
 This will build your Dockerfile in GitHub Actions CI into a [`linux/amd64` platform](https://docs.docker.com/build/building/multi-platform/) Docker container image and then deploy it to the [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (`ghcr`) associated with your repository.
 
+When your container image has finished building, you can view it and its tags on GitHub at: `https://github.com/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025/pkgs/container/reproducible-ml-for-scientists-tutorial-scipy-2025`
+
+## Using the containerized environment on Brev
+
+::: {note} Why use containers on Brev?
+
+This segment of the tutorial is meant to highlight how to use containerized software environments **at different computing centers or resources**.
+In the case of Brev, _this isn't needed_, as the login node and the compute note are the same, but with an HTC or HPC environment where you need to transport your computing environment to the worker nodes, having containers significantly simplifies the process.
+
+:::
+
+Our Brev environment already has Docker installed on it, so we can now pull down the Docker container using [`docker pull`](https://docs.docker.com/reference/cli/docker/image/pull/).
+
+```bash
+docker pull ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025:sha-<the commit sha short>
+```
+
+Once that is finished we can confirm that the container image exists in our local container registry with
+
+```bash
+docker images
+```
+
+We can then use [`docker run`](https://docs.docker.com/reference/cli/docker/container/run/) to start and then attach a container instance with our software environment active inside of it
+
+```bash
+docker run \
+    --rm \
+    -ti \
+    --gpus all \
+    -v $PWD:/work \
+    ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025:sha-<the commit sha short> bash
+```
+
+::: {important} `docker run` walkthrough
+:class: dropdown
+
+Let's step through the `docker run` command to understand what's happening.
+
+* [`--rm`](https://docs.docker.com/reference/cli/docker/container/run/#rm) : Automatically remove the container and its associated anonymous volumes when it exits
+* [`-t, --tty`](https://docs.docker.com/reference/cli/docker/container/run/#tty) : Allocate a pseudo-TTY (for interactive use)
+* [`-i, --interactive`](https://docs.docker.com/reference/cli/docker/container/run/#interactive) : Keep STDIN open even if not attached (for interactive use)
+* [`--gpus`](https://docs.docker.com/reference/cli/docker/container/run/#gpus) : GPU devices to add to the container (`all` to pass all GPUs)
+* [`-v, --volume`](https://docs.docker.com/reference/cli/docker/container/run/#volume) : Bind mount a volume from `<path on host machine>:<path inside Docker container>`
+
+:::
+
 ::: {important} Further references
 
 For today we're focusing on Docker containers, but if you run your workflows at High-Throughput Computing (HTC) or High-Performance Computing (HPC) centers with orchestration systems like HTCondor or SLURM you will probably be restricted to using a different Linux container system called Apptainer.
