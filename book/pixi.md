@@ -36,21 +36,33 @@ We'll dive deeper into these topics later on.
 # The conda and PyPI ecosystem
 Pixi is built on top of the conda and PyPI ecosystem.
 
-Conda is a {term}`cross-platform`, {term}`cross-language` package ecosystem that allows users to install packages and manage environments.
+![Different environment layers](assets/layers_env.png)
+
+**Conda** is a **cross-platform**, **cross-language** package ecosystem that allows users to install packages and manage environments.
 It is widely used in the data science and machine learning community, but it is also used in other fields.
-It's power comes from the fact that it always installs binary packages, meaning that it doesn't need to compile anything.
+It’s power comes from the fact that it always installs binary packages, meaning that it doesn’t need to compile anything.
 This makes the ecosystem very fast and easy to use.
 
-What makes the conda ecosystem even more powerful is the fact that it can install packages from multiple channels.
-The preferred channel these days is the `conda-forge` channel, which is a community-driven channel that provides a lot of packages.
-This shared community effort makes the packages significantly more reliable.
-The binary nature of the packages allows the conda ecosystem to be easily used outside the Python ecosystem, making it a great choice for C/C++ and Fortran packages as well.
-Especially combining languages can be a pain, where conda shines.
-
-PyPI is the Python Package Index, which is the main package manager for Python.
+**PyPI** is the Python Package Index, which is the main package index for Python packages.
 It is a much larger ecosystem than conda, especially because the boundary to upload packages is lower.
 This means that there are a lot of packages available, but it also means that the quality of the packages is not always as high as in the conda ecosystem.
-Pixi can install packages from both ecosystems, but it is recommended to use conda packages whenever possible.
+
+Pixi **can** install packages from **both** **ecosystems**, but it uses a **conda-first approach**.
+
+The simplified process is as follows:
+
+1. Resolve the conda dependencies.
+2. Map the conda packages to PyPI packages.
+3. Resolve the [remaining]("All pypi dependencies already installed as conda dependencies will not be fetched from PyPI") PyPI dependencies.
+
+Why we have chosen for this conda-first approach is that it allows Pixi to use the conda ecosystem's strengths.
+The [`conda-forge`](https://conda-forge.org) channel is a community-driven channel that provides a lot of packages, and it is the preferred channel to use.
+This shared community effort makes the packages significantly more reliable, compared to the PyPI ecosystem.
+
+In summary, Pixi uses the conda ecosystem as the primary source for packages, and it uses PyPI as a secondary source for packages that are not available in the conda ecosystem.
+
+Here is a non-exhaustive comparison of the two ecosystems tools:
+
 
 | Feature | Conda | PyPI |
 | ------- | ----- | ---- |
@@ -356,7 +368,7 @@ While Pixi uses `uv` to install the PyPI packages, it doesn't install `uv` itsel
 So you cannot us `uv` directly in the project, without installing it first.
 :::
 
-### Special types of `pypi-dependencies`
+### Special types of dependencies
 Pixi has a few special types of dependencies that you can use in the project.
 
 | Type | Description | Example |
@@ -366,7 +378,7 @@ Pixi has a few special types of dependencies that you can use in the project.
 | `tag` | Install a specific tag from a git repository (requires `git`)| `tag = "v1.0.0"` |
 | `rev` | Install a specific commit from a git repository (requires `git`) | `rev = "abc123"` |
 | `path` | Install a package from a local directory | `path = "./local-python-package"` |
-| `editable` | Install a package in editable mode | `editable = true` |
+| `editable` (`pypi` only) | Install a package in editable mode | `editable = true` |
 | `url` | Install a package from a URL | `url = "https://example.com/package.whl"` |
 
 
