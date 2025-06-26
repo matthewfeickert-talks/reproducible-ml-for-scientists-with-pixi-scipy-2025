@@ -44,8 +44,8 @@ project:
     - file: introduction.md
     - file: pixi.md
     - file: pixi-exercise.md
-    - file: conda.md
-    - file: cuda.md
+    - file: cuda-conda.md
+    - file: containers.md
     # appendix
     - file: glossary.md
 
