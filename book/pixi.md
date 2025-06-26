@@ -33,58 +33,6 @@ All of these points are wrapped in a set of main functionalities.
 
 We'll dive deeper into these topics later on.
 
-# The conda and PyPI ecosystem
-Pixi is built on top of the conda and PyPI ecosystem.
-
-![Different environment layers](assets/layers_env.png)
-
-**Conda** is a **cross-platform**, **cross-language** package ecosystem that allows users to install packages and manage environments.
-It is widely used in the data science and machine learning community, but it is also used in other fields.
-It’s power comes from the fact that it always installs binary packages, meaning that it doesn’t need to compile anything.
-This makes the ecosystem very fast and easy to use.
-
-**PyPI** is the Python Package Index, which is the main package index for Python packages.
-It is a much larger ecosystem than conda, especially because the boundary to upload packages is lower.
-This means that there are a lot of packages available, but it also means that the quality of the packages is not always as high as in the conda ecosystem.
-
-Pixi **can** install packages from **both** **ecosystems**, but it uses a **conda-first approach**.
-
-The simplified process is as follows:
-
-1. Resolve the conda dependencies.
-2. Map the conda packages to PyPI packages.
-3. Resolve the [remaining]("All pypi dependencies already installed as conda dependencies will not be fetched from PyPI") PyPI dependencies.
-
-Why we have chosen for this conda-first approach is that it allows Pixi to use the conda ecosystem's strengths.
-The [`conda-forge`](https://conda-forge.org) channel is a community-driven channel that provides a lot of packages, and it is the preferred channel to use.
-This shared community effort makes the packages significantly more reliable, compared to the PyPI ecosystem.
-
-In summary, Pixi uses the conda ecosystem as the primary source for packages, and it uses PyPI as a secondary source for packages that are not available in the conda ecosystem.
-
-Here is a non-exhaustive comparison of the two ecosystems tools:
-
-
-| Feature | Conda | PyPI |
-| ------- | ----- | ---- |
-| Package format | Binary | Source & Binary (wheel) |
-| Package managers | [`conda`](https://github.com/conda/conda), [`mamba`](https://github.com/mamba-org/mamba), [`micromamba`](https://github.com/mamba-org/mamba), [`pixi`](https://github.com/prefix-dev/pixi), [`rattler`](https://github.com/conda/rattler) | [`pip`](https://github.com/pypa/pip), [`poetry`](https://github.com/python-poetry/poetry), [`uv`](https://github.com/astral-sh/uv), [`pdm`](https://github.com/pdm-project/pdm), [`hatch`](https://github.com/pypa/hatch), [`rye`](https://github.com/astral-sh/rye), [`pixi`](https://github.com/prefix-dev/pixi) |
-| Environment management | [`conda`](https://github.com/conda/conda), [`mamba`](https://github.com/mamba-org/mamba), [`micromamba`](https://github.com/mamba-org/mamba), [`pixi`](https://github.com/prefix-dev/pixi) | [`venv`](https://docs.python.org/3/library/venv.html), [`virtualenv`](https://virtualenv.pypa.io/en/latest/), [`pipenv`](https://pipenv.pypa.io/en/latest/), [`pyenv`](https://github.com/pyenv/pyenv), [`uv`](https://github.com/astral-sh/uv), [`rye`](https://github.com/astral-sh/rye), [`poetry`](https://github.com/python-poetry/poetry), [`pixi`](https://github.com/prefix-dev/pixi) |
-| Package building | [`conda-build`](https://github.com/conda/conda-build), [`pixi`](https://github.com/prefix-dev/pixi) | [`setuptools`](https://github.com/pypa/setuptools), [`poetry`](https://github.com/python-poetry/poetry), [`flit`](https://github.com/pypa/flit), [`hatch`](https://github.com/pypa/hatch), [`uv`](https://github.com/astral-sh/uv), [`rye`](https://github.com/astral-sh/rye) |
-| Package index | [`conda-forge`](https://prefix.dev/channels/conda-forge), [`bioconda`](https://prefix.dev/channels/bioconda), and more | [pypi.org](https://pypi.org) |
-
-## Why do I need conda if I have PyPI? (Shared Libraries)
-Conda packages handle shared libraries automatically: when you install a package (like `numpy`), all required dependencies (such as `openblas`) are installed and guaranteed to be ABI compatible. In contrast, PyPI packages often require you to install system libraries manually (using tools like `apt` or `brew`), which can lead to compatibility issues.
-
-:::{note} PyPI wheels
-Many PyPI wheels now bundle shared libraries, but this isn't universal and doesn't always ensure ABI compatibility, and potentially grows the package sizes.
-:::
-
-:::{note} Pixi lets you use both!
-Pixi can install packages from both conda and PyPI, so you can use the best of both worlds.
-Without letting them conflict with each other.
-:::
----
-
 # The project workflow
 Pixi is designed to be used in a project-based workflow.
 Tools like `poetry`, `uv`, `npm`, `deno`, `cargo`, `maven` and `pixi` are all designed to be used in a project-based workflow.
