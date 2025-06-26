@@ -4,7 +4,7 @@ Now that we know how to build a CUDA Pixi environment in our example workspace a
 
 ## Training the machine learning model
 
-Let's write a very standard tutorial example of training a deep neral network on the [MNIST dataset](https://en.wikipedia.org/wiki/MNIST_database) with PyTorch and then run it on GPUs in an HTCondor worker pool.
+Let's write a very standard tutorial example of training a deep neral network on the [MNIST dataset](https://en.wikipedia.org/wiki/MNIST_database) with PyTorch and then run it on the GPUs on Brev.
 
 #### The neural network code
 
@@ -23,7 +23,7 @@ Now let's think about what we need to use this code.
 Looking at the imports of `src/torch_MNIST.py` we can see that `torch` and `torchvision` are the only imported libraries that aren't part of the Python standard library, so we will need to depend on PyTorch and `torchvision`.
 We also know that we'd like to use CUDA accelerated code, so that we'll need CUDA libraries and versions of PyTorch that support CUDA.
 
-::::: {note} Create the environment
+::::: {tip} Create the environment
 
 Create a Pixi workspace that:
 
@@ -36,6 +36,16 @@ Create a Pixi workspace that:
 :class: dropdown
 
 This is just expanding the exercises from the CUDA conda packages exercise.
+
+Create a new workspace
+
+```bash
+pixi init ~/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example
+cd ~/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example
+```
+```
+✔ Created /home/<username>/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example/pixi.toml
+```
 
 Let's first add all the platforms we want to work with to the workspace
 
@@ -86,7 +96,7 @@ pixi upgrade --feature cpu
 ```toml
 [workspace]
 channels = ["conda-forge"]
-name = "htcondor"
+name = "ml-example"
 platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
@@ -144,7 +154,7 @@ Added these only for feature: gpu
 ```toml
 [workspace]
 channels = ["conda-forge"]
-name = "htcondor"
+name = "ml-example"
 platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
@@ -172,6 +182,75 @@ gpu = ["gpu"]
 ::::
 :::::
 
+Now that we have the environments solved, let's do a comparison of training in the CPU environment and the GPU environment.
+
+To validate that things are working with the CPU code, let’s do a short training run for only 2 epochs in the `cpu` environment.
+
+```bash
+pixi run --environment cpu python src/torch_MNIST.py --epochs 2 --save-model --data-dir data
+```
+```
+100.0%
+100.0%
+100.0%
+100.0%
+Train Epoch: 1 [0/60000 (0%)]	Loss: 2.329474
+Train Epoch: 1 [640/60000 (1%)]	Loss: 1.425185
+Train Epoch: 1 [1280/60000 (2%)]	Loss: 0.826808
+Train Epoch: 1 [1920/60000 (3%)]	Loss: 0.556883
+Train Epoch: 1 [2560/60000 (4%)]	Loss: 0.483756
+...
+Train Epoch: 2 [57600/60000 (96%)]	Loss: 0.146226
+Train Epoch: 2 [58240/60000 (97%)]	Loss: 0.016065
+Train Epoch: 2 [58880/60000 (98%)]	Loss: 0.003342
+Train Epoch: 2 [59520/60000 (99%)]	Loss: 0.001542
+
+Test set: Average loss: 0.0351, Accuracy: 9874/10000 (99%)
+```
+
+That took some time and we only got 2 epochs into training, but it ran!
+
+Let's speed things up using the `gpu` environment.
+
+```bash
+pixi run --environment gpu python src/torch_MNIST.py --epochs 14 --save-model --data-dir data
+```
+```
+Train Epoch: 1 [0/60000 (0%)]   Loss: 2.281690
+Train Epoch: 1 [640/60000 (1%)]	Loss: 1.459567
+Train Epoch: 1 [1280/60000 (2%)]	Loss: 0.927929
+Train Epoch: 1 [1920/60000 (3%)]	Loss: 0.632228
+Train Epoch: 1 [2560/60000 (4%)]	Loss: 0.384857
+...
+Train Epoch: 14 [56960/60000 (95%)]	Loss: 0.009351
+Train Epoch: 14 [57600/60000 (96%)]	Loss: 0.001419
+Train Epoch: 14 [58240/60000 (97%)]	Loss: 0.024142
+Train Epoch: 14 [58880/60000 (98%)]	Loss: 0.004241
+Train Epoch: 14 [59520/60000 (99%)]	Loss: 0.003314
+
+Test set: Average loss: 0.0268, Accuracy: 9919/10000 (99%)
+```
+
+:::: {tip} Add `train-cpu` and `train-gpu` tasks to the Pixi workspace
+
+::: {hint} Solution
+:class: dropdown
+
+TODO
+
+:::
+::::
+
 ## Performing inference with the trained model
 
 TODO
+
+:::: {tip} Add an `inference` environment that uses the `gpu` feature
+
+::: {hint} Solution
+:class: dropdown
+
+TODO
+
+:::
+::::
