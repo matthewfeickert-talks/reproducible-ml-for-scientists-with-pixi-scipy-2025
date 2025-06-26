@@ -6,7 +6,7 @@ Now that we know how to build a CUDA Pixi environment in our example workspace a
 
 Let's write a very standard tutorial example of training a deep neral network on the [MNIST dataset](https://en.wikipedia.org/wiki/MNIST_database) with PyTorch and then run it on the GPUs on Brev.
 
-#### The neural network code
+### The neural network code
 
 We'll download Python code that uses a convocational neural network written in PyTorch to learn to identify the handwritten number of the MNIST dataset and place it under a `src/` directory.
 This is a modified example from the PyTorch documentation (https://github.com/pytorch/examples/blob/main/mnist/main.py) which is [licensed under the BSD 3-Clause license](https://github.com/pytorch/examples/blob/abfa4f9cc4379de12f6c340538ef9a697332cccb/LICENSE).
@@ -17,7 +17,7 @@ mkdir -p src
 mv torch_MNIST.py src/
 ```
 
-#### The Pixi environment
+### The Pixi environment
 
 Now let's think about what we need to use this code.
 Looking at the imports of `src/torch_MNIST.py` we can see that `torch` and `torchvision` are the only imported libraries that aren't part of the Python standard library, so we will need to depend on PyTorch and `torchvision`.
