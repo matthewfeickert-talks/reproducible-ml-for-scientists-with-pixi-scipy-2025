@@ -202,4 +202,114 @@ ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 ### Automation with GitHub Actions workflows
 
-TODO
+In the personal GitHub repository that we've been working in create a GitHub Actions workflow directory
+
+```bash
+mkdir -p .github/workflows
+```
+
+and then add the following workflow file as `.github/workflows/docker.yaml`
+
+```yaml
+name: Docker Images
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+    paths:
+      - 'cuda-exercise/pixi.toml'
+      - 'cuda-exercise/pixi.lock'
+      - 'cuda-exercise/Dockerfile'
+      - 'cuda-exercise/.dockerignore'
+      - 'cuda-exercise/app/**'
+  pull_request:
+    paths:
+      - 'cuda-exercise/pixi.toml'
+      - 'cuda-exercise/pixi.lock'
+      - 'cuda-exercise/Dockerfile'
+      - 'cuda-exercise/.dockerignore'
+      - 'cuda-exercise/app/**'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  docker:
+    name: Build and publish images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=raw,value=noble-cuda-12.9
+            type=raw,value=latest
+            type=sha
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test build
+        id: docker_build_test
+        uses: docker/build-push-action@v6
+        with:
+          context: cuda-exercise
+          file: cuda-exercise/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          pull: true
+
+      - name: Deploy build
+        id: docker_build_deploy
+        uses: docker/build-push-action@v6
+        with:
+          context: cuda-exercise
+          file: cuda-exercise/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          pull: true
+          push: ${{ github.event_name != 'pull_request' }}
+```
+
+This will build your Dockerfile in GitHub Actions CI into a [`linux/amd64` platform](https://docs.docker.com/build/building/multi-platform/) Docker container image and then deploy it to the [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (`ghcr`) associated with your repository.
+
+::: {important} Further references
+
+For today we're focusing on Docker containers, but if you run your workflows at High-Throughput Computing (HTC) or High-Performance Computing (HPC) centers with orchestration systems like HTCondor or SLURM you will probably be restricted to using a different Linux container system called Apptainer.
+
+The [Reproducible Machine Learning Workflows for Scientists](https://carpentries-incubator.github.io/reproducible-ml-workflows/) Carpentries Incubator lesson has [further information and examples for using Apptainer with these workflows](https://carpentries-incubator.github.io/reproducible-ml-workflows/pixi_deployment.html).
+
+:::
