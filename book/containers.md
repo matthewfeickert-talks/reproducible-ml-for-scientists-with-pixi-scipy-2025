@@ -200,7 +200,7 @@ ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 :::
 
-### Automation with GitHub Actions workflows
+## Automation with GitHub Actions workflows
 
 In the personal GitHub repository that we've been working in create a GitHub Actions workflow directory
 
