@@ -1,4 +1,4 @@
-# Pixi exercises
+# Pixi: exercises
 This page contains exercises to help you practice the concepts learned in the Pixi introduction. Each exercise is designed to reinforce your understanding of Pixi's features and capabilities.
 
 ## Exercise 1: Creating a project
@@ -7,7 +7,7 @@ This page contains exercises to help you practice the concepts learned in the Pi
 3. Use the Pixi installed Python to print `"Hello, Pixi!"` to the console.
 4. Run a command to print the version of Python used in your project. You can see the location of the interpreter by running: `import sys;print(sys.executable)`
 
-:::{note} Solution
+:::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -31,7 +31,7 @@ pixi run python -c 'import sys; print(sys.version); print(sys.executable)'
 6. Add a `pypi` + `git` dependency on [`pytest`](https://github.com/pytest-dev/pytest) to your project.
 7. Visualize the locked dependencies in the command line.
 
-:::{note} Solution
+:::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -59,7 +59,7 @@ pixi tree
 2. Require the `scipy` dependency to be version `1.15.1`.
 3. Make the `pytest` use version `8.3.1` from the `git` repository.
 
-:::{note} Solution
+:::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -85,7 +85,7 @@ pixi add pytest --pypi --git https://github.com/pytest-dev/pytest.git --tag 8.3.
 8. Now make sure the `test` and `default` environments are using the same solve group.
 9. Compare the dependencies with `pixi list --explicit --environment ENV_NAME`. Validate the versions of the dependencies in both environments are the same.
 
-::::{note} Solution
+::::{hint} Solution
 :class: dropdown
 1: move `pytest` from `[pypi-dependencies]` to `[feature.test.pypi-dependencies]` in `pixi.toml`:
 :::{code}diff
@@ -128,7 +128,7 @@ pixi list -x
 6. Add the task `fmt` to the `format` feature that runs `ruff --version`.
 7. Run the `fmt` task.
 
-:::{note} Solution
+:::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -158,7 +158,7 @@ pixi run fmt
 4. Use `pixi shell` to activate the environment in the current shell.
 5. Verify that the `MY_ENV_VAR` is set in the current shell by running `echo $MY_ENV_VAR` (or `echo %MY_ENV_VAR%` on Windows).
 
-::::{note} Solution
+::::{hint} Solution
 :class: dropdown
 1. Set the environment variable in the `pixi.toml` file:
 :::{code} toml

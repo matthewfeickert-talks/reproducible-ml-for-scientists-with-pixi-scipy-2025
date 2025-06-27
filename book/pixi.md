@@ -1,4 +1,4 @@
-# Introduction to Pixi
+# Pixi: Introduction
 
 
 ![Pixi banner](https://github.com/prefix-dev/pixi/assets/4995967/a3f9ff01-c9fb-4893-83c0-2a3f924df63e)
@@ -409,33 +409,40 @@ The best way to explain this is to give an example.
 ```{code} toml
 [dependencies] # Read this as `[feature.default.dependencies]`
 python = ">=3.11,<3.12"
+numpy = "*"
+
 [feature.test.dependencies]
 pytest = ">=8.3.5,<9"
+
 [feature.format.dependencies]
 ruff = "*"
 
+[feature.debug.dependencies]
+ipython = "*"
+
 [environments]
-# A development environment with all the tools to play with
-dev = ["test", "format"]
+# A development environment with all the tools to play with, overwriting the default environment
+default = {features = ["test", "debug", "format"], solve-group = "default"}
 
 # A testing environment with only the tools to test, great for CI
-test = ["test"]
+test = {features = ["test"], solve-group = "default"}
 
 # A production environment with only the tools to run the code
 # The default feature is always included, so you don't need to specify it
-prod = []
+prod = {features = [], solve-group = "default"}
 
 # A minimal environment with only the tools to format the code
 format = { features = ["format"] , no-default-feature = true }
 ```
 This will create the following environments:
 
-| Environment | Features | Dependencies |
-| --- | --- | --- |
-| `dev` | `test`, `format`, `default` | `python`, `pytest`, `ruff` |
-| `test` | `test`, `default` | `python`, `pytest` |
-| `prod` | `default` | `python` |
-| `format` | `format` | `ruff` |
-| `default` | `default` | `python` |
+| Environment | Features | Dependencies | Solve Group |
+| --- | --- | --- | --- |
+| `default` | `test`, `format`, `debug`, `default` | `python`, `numpy`, `pytest`, `ruff` | default |
+| `test` | `test`, `default` | `python`, `numpy`, `pytest` | default |
+| `prod` | `default` | `python`, `numpy` | default |
+| `format` | `format` | `ruff` | None |
+
+![Pixi environments](assets/solve-group.png)
 
 More information about the features can be found in the [documentation](https://pixi.sh/latest/workspace/multi_environment).
