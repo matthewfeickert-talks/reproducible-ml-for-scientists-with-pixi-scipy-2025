@@ -179,41 +179,6 @@ The only difference between the two files is that the `pyproject.toml` file has 
 
 For the rest of this tutorial, we will use the `pixi.toml` file as the main file.
 
-## Platforms
-The `platforms` field is a required field as it describes the platforms that the project is intended to run on.
-Pixi will create the lockfile for all platforms that are specified in the `platforms` field.
-
-Here is a list of the most common platforms that Pixi supports:
-- `osx-arm64`: macOS on Apple Silicon (M1, etc.)
-- `osx-64`: macOS on Intel (older Macs)
-- `linux-64`: Linux on Intel/AMD (most common Linux platform)
-- `linux-aarch64`: Linux on ARM (Raspberry Pi, etc.)
-- `win-64`: Windows on Intel/AMD (most common Windows platform)
-- `win-arm64`: Windows on ARM (Surface Pro X, etc.)
-
-The `platforms` field is always a list of these strings.
-
-
-## Channels
-The `channels` field is a required field that describes the channels that Pixi will use to install packages from.
-The channels are URLs that point to the package repositories that Pixi will use to install packages.
-
-The most common channel is the `conda-forge` channel, which is a community-driven channel that provides a lot of packages.
-There are much more channels available, like `bioconda`, `pytorch`, `rapidsai`, and many more.
-A channel can have multiple forms:
-- A channel name, like `conda-forge`, which Pixi will resolve to the URL `https://conda.anaconda.org/conda-forge` because conda.anaconda.org is the biggest host for conda channels.
-- A URL to a channel, like `https://prefix.dev/conda-forge` or `https://conda.anaconda.org/conda-forge`
-- A local directory, like `file:///path/to/local/channel`
-
-The `channels` field has a priority order, meaning that Pixi will first try to install packages from the first channel, then the second channel, and so on. Learn more about this in the [`channels` documentation](https://pixi.sh/latest/advanced/channel_logic/).
-
-:::{tip} Prefix.dev channels have improved performance
-Prefix.dev are not the default, but they are the recommended channels to use.
-They are optimized for performance and have the most important channels mirrored, like `conda-forge`, `bioconda`, and more.
-See why it's so much faster in [the blog post](https://prefix.dev/blog/sharded_repodata).
-:::
-
-
 # Managing dependencies
 After creating the project, you can start adding dependencies to the project.
 Pixi uses the `pixi add` command to add dependencies to the project.
