@@ -176,3 +176,6 @@ cython_debug/
 
 # MyST build outputs
 _build
+
+# MacOS stuff
+.DS_Store
