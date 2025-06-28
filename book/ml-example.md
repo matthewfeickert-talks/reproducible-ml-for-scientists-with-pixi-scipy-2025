@@ -386,12 +386,75 @@ as the task name was unique in the workspace and so Pixi is able to determine it
 
 TODO
 
-:::: {tip} Add an `inference` environment that uses the `gpu` feature
+:::: {tip} Add an `inference` environment that uses the `gpu` feature and an `inference` feature
 
 ::: {hint} Solution
 :class: dropdown
 
-TODO
+Add additional dependencies that we'll want for use in inference environments
+
+```bash
+pixi add --feature inference matplotlib
+```
+```
+✔ Added matplotlib
+Added these only for feature: inference
+```
+
+and add the `gpu` and `inference` features to an `inference` environment
+
+```bash
+pixi workspace environment add --feature gpu --feature inference inference
+```
+```
+✔ Added environment inference
+```
+
+and then instantiate the feature with specific versions
+
+```bash
+pixi upgrade --feature inference
+```
+
+```toml
+[workspace]
+channels = ["conda-forge"]
+name = "ml-example"
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+
+[feature.cpu.dependencies]
+pytorch-cpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.cpu.tasks.train-cpu]
+description = "Train MNIST on CPU"
+cmd = "python src/torch_MNIST.py --epochs 2 --save-model --data-dir data"
+
+[feature.gpu.system-requirements]
+cuda = "12"
+
+[feature.gpu.target.linux-64.dependencies]
+pytorch-gpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.gpu.tasks.train-gpu]
+description = "Train MNIST on GPU"
+cmd = "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data"
+
+[feature.inference.dependencies]
+matplotlib = ">=3.10.3,<4"
+
+[environments]
+cpu = ["cpu"]
+gpu = ["gpu"]
+inference = ["gpu", "inference"]
+```
 
 :::
 ::::
