@@ -317,6 +317,22 @@ In the case of Brev, _this isn't needed_, as the login node and the compute note
 
 :::
 
+To verify that things are visible to other computers, install the Linux container utility [`crane`](https://github.com/google/go-containerregistry/tree/main/cmd/crane) with `pixi global`
+
+```bash
+pixi global install crane
+```
+```
+└── crane: 0.20.5 (installed)
+    └─ exposes: crane
+```
+
+and then use [`crane ls`](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane_ls.md) to list all of the container images in your container registry for the particular image
+
+```bash
+crane ls ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025
+```
+
 Our Brev environment already has Docker installed on it, so we can now pull down the Docker container using [`docker pull`](https://docs.docker.com/reference/cli/docker/image/pull/).
 
 ```bash
