@@ -14,7 +14,7 @@ CUDA software environments were bespoke and not many scientists understood how t
 
 ## CUDA packages on conda-forge
 
-In [late 2018](https://github.com/conda-forge/conda-forge.github.io/issues/687) to better support the scientific developer community, NVIDIA started to release components of the CUDA toolkits on the [`nvidia` conda channel](https://anaconda.org/nvidia).
+After discussion in [late 2018](https://github.com/conda-forge/conda-forge.github.io/issues/687) to better support the scientific developer community, NVIDIA started in 2019 to package a redistributable bundle of CUDA libraries [`nvidia` conda channel](https://anaconda.org/nvidia), which was later also added with help from the broader community to [`conda-forge` in 2020]( https://github.com/conda-forge/staged-recipes/pull/12882 ). This bundle was modeled after earlier efforts by [Numba to enable CUDA support]( https://github.com/numba/conda-recipe-cudatoolkit ).
 This provided the first access to start to create conda environments where the versions of different CUDA tools could be directly specified and downloaded.
 However, all of this work was being done internally in NVIDIA and as it was on a separate channel it was less visible and it still required additional knowledge to work with.
 In [2023](https://youtu.be/WgKwlGgVzYE?si=hfyAo6qLma8hnJ-N), NVIDIA's open source team began to move the release of CUDA conda packages from the `nvidia` channel to conda-forge, making it easier to discover and allowing for community support.
