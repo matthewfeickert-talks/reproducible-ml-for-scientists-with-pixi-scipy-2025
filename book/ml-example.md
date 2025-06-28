@@ -231,15 +231,156 @@ Train Epoch: 14 [59520/60000 (99%)]	Loss: 0.003314
 Test set: Average loss: 0.0268, Accuracy: 9919/10000 (99%)
 ```
 
-:::: {tip} Add `train-cpu` and `train-gpu` tasks to the Pixi workspace
+::::: {tip} Add `train-cpu` and `train-gpu` tasks to the Pixi workspace
 
-::: {hint} Solution
+:::: {hint} Solution
 :class: dropdown
 
-TODO
+Let's add the `train-cpu` task first with [`pixi task add`](https://pixi.sh/latest/reference/cli/pixi/task/add/)
+
+```bash
+pixi task add --feature cpu --description "Train MNIST on CPU" train-cpu "python src/torch_MNIST.py --epochs 2 --save-model --data-dir data"
+```
+```
+✔ Added task `train-cpu`: python src/torch_MNIST.py --epochs 2 --save-model --data-dir data, description = "Train MNIST on CPU"
+```
+
+and then do the same with the `train-gpu` task
+
+```bash
+pixi task add --feature gpu --description "Train MNIST on GPU" train-gpu "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data"
+```
+```
+✔ Added task `train-gpu`: python src/torch_MNIST.py --epochs 14 --save-model --data-dir data, description = "Train MNIST on GPU"
+```
+
+We can now get a nice summary of the tasks available with [`pixi task list`](https://pixi.sh/latest/reference/cli/pixi/task/list/)
+
+```bash
+pixi task list
+```
+```
+Tasks that can run on this machine:
+-----------------------------------
+train-cpu, train-gpu
+Task       Description
+train-cpu  Train MNIST on CPU
+train-gpu  Train MNIST on GPU
+```
+
+```toml
+[workspace]
+channels = ["conda-forge"]
+name = "ml-example"
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+
+[feature.cpu.dependencies]
+pytorch-cpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.cpu.tasks]
+train-cpu = { cmd = "python src/torch_MNIST.py --epochs 2 --save-model --data-dir data", description = "Train MNIST on CPU" }
+
+[feature.gpu.system-requirements]
+cuda = "12"
+
+[feature.gpu.target.linux-64.dependencies]
+pytorch-gpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.gpu.tasks]
+train-gpu = { cmd = "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data", description = "Train MNIST on GPU" }
+
+[environments]
+cpu = ["cpu"]
+gpu = ["gpu"]
+```
+
+::: {note} task specific subtables
+
+You'll note that using the [`pixi task`](https://pixi.sh/latest/reference/cli/pixi/task/) CLI API adds the tasks to the feature `tasks` subtable but places all of the `task` components (e.g. `cmd`, `description`) on a single line.
+It can sometimes be visually cleaner to give each task its own subtable, where
+
+```toml
+[feature.gpu.tasks]
+train-gpu = { cmd = "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data", description = "Train MNIST on GPU" }
+```
+
+can be rewritten as
+
+```toml
+[feature.gpu.tasks.train-gpu]
+description = "Train MNIST on GPU"
+cmd = "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data"
+```
+
+```toml
+[workspace]
+channels = ["conda-forge"]
+name = "ml-example"
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+
+[feature.cpu.dependencies]
+pytorch-cpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.cpu.tasks.train-cpu]
+description = "Train MNIST on CPU"
+cmd = "python src/torch_MNIST.py --epochs 2 --save-model --data-dir data"
+
+[feature.gpu.system-requirements]
+cuda = "12"
+
+[feature.gpu.target.linux-64.dependencies]
+pytorch-gpu = ">=2.7.1,<3"
+torchvision = ">=0.22.0,<0.23"
+
+[feature.gpu.tasks.train-gpu]
+description = "Train MNIST on GPU"
+cmd = "python src/torch_MNIST.py --epochs 14 --save-model --data-dir data"
+
+[environments]
+cpu = ["cpu"]
+gpu = ["gpu"]
+```
 
 :::
+
 ::::
+:::::
+
+::: {note} Task specification at the CLI
+
+Note that to run these tasks now we can just run the task name
+
+```bash
+pixi run train-gpu
+```
+```
+✨ Pixi task (train-gpu in gpu): python src/torch_MNIST.py --epochs 14 --save-model --data-dir data: (Train MNIST on GPU)
+```
+
+without having to specify the task's environment
+
+```bash
+pixi run --environment gpu train-gpu
+```
+
+as the task name was unique in the workspace and so Pixi is able to determine its environment automatically.
+
+:::
 
 ## Performing inference with the trained model
 
