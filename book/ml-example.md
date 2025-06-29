@@ -12,7 +12,7 @@ We'll download Python code that uses a convocational neural network written in P
 This is a modified example from the PyTorch documentation (https://github.com/pytorch/examples/blob/main/mnist/main.py) which is [licensed under the BSD 3-Clause license](https://github.com/pytorch/examples/blob/abfa4f9cc4379de12f6c340538ef9a697332cccb/LICENSE).
 
 ```bash
-curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/c7889222544928fb6f9fdeb1145767272b5cfec8/torch_MNIST.py
+curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST.py
 mkdir -p src
 mv torch_MNIST.py src/
 ```
