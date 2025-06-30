@@ -8,7 +8,7 @@ Let's write a very standard tutorial example of training a deep neral network on
 
 ### The neural network code
 
-We'll download Python code that uses a convocational neural network written in PyTorch to learn to identify the handwritten number of the MNIST dataset and place it under a `src/` directory.
+We'll download [Python code](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST.py) that uses a convocational neural network written in PyTorch to learn to identify the handwritten number of the MNIST dataset and place it under a `src/` directory.
 This is a modified example from the PyTorch documentation (https://github.com/pytorch/examples/blob/main/mnist/main.py) which is [licensed under the BSD 3-Clause license](https://github.com/pytorch/examples/blob/abfa4f9cc4379de12f6c340538ef9a697332cccb/LICENSE).
 
 ```bash
@@ -385,9 +385,9 @@ as the task name was unique in the workspace and so Pixi is able to determine it
 ## Performing inference with the trained model
 
 Now that we've trained our model we'd like to be able to use it to perform machine learning inference (model prediction).
-However, we might want to perform inference in a _different software_ environment than the environment we used for model _training_.
+However, we might want to perform inference in a _different software environment_ than the environment we used for model _training_.
 
-We'll download Python code that uses the same PyTorch convocational neural network architecture in `torch_MNIST.py` to load the model and an image and make a predict what number the image contains and place it under a `src/` directory.
+We'll download [Python code](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST_inference.py) under the `src/` directory that uses the same PyTorch convocational neural network architecture in [`torch_MNIST.py`](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST.py) to load the model and an image and predict what number the image contains.
 This code is [licensed under the MIT license](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/LICENSE).
 
 ```bash
