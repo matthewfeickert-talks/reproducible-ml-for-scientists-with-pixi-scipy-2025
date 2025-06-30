@@ -43,6 +43,7 @@ project:
     - file: setup.md
     - file: introduction.md
     - file: pixi.md
+    - file: pixi-exercise.md
     - file: cuda-conda.md
     - file: ml-example.md
     - file: containers.md
