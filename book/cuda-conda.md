@@ -653,4 +653,8 @@ You are highly encouraged to read them!
 * [What is a Conda package, actually?](https://prefix.dev/blog/what-is-a-conda-package) (2025-06-11)
 * [Virtual Packages in the Conda ecosystem](https://prefix.dev/blog/virtual-packages-in-the-conda-ecosystem) (2025-06-18)
 
+If you would also like a useful summary of different things related to CUDA, check out Modal's summary website of CUDA focused GPU concepts.
+
+* [GPU Glossary](https://modal.com/gpu-glossary), by Modal
+
 :::
