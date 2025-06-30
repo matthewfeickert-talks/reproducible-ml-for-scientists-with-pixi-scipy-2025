@@ -29,6 +29,6 @@ cmd = "lychee --no-progress book/*.md"
 description = "Check links in the tutorial, might fail if no GITHUB_TOKEN is set"
 
 [dependencies]
-mystmd = ">=1.3.28,<2"
+mystmd = ">=1.5.0,<2"
 pre-commit = ">=4.2.0,<5"
 lychee = ">=0.15.1,<0.16"
