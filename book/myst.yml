@@ -45,6 +45,7 @@ project:
     - file: pixi.md
     - file: pixi-exercise.md
     - file: cuda-conda.md
+    - file: ml-example.md
     - file: containers.md
     # appendix
     - file: glossary.md

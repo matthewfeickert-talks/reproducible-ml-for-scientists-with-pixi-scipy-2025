@@ -147,6 +147,17 @@ brev login
 
 :::
 
+#### Provisioning environments
+
+Later on in the [SciPy 2025 tutorial](https://cfp.scipy.org/scipy2025/talk/GDN8PN/), we'll use a coupon code to provision a [new Brev GPU instance environment](https://brev.nvidia.com/environment/new).
+The particular configuration for the code is:
+* 1x NVIDIA L4 GPU
+* 24GiB VRAM
+* 16GiB Ram x 4 CPUS
+* GCP
+
+[![brev-new-environment](images/brev-new-environment-view.png)](https://brev.nvidia.com/environment/new)
+
 ### GitHub Repository Setup
 
 1. Create a personal [GitHub account](https://github.com/) if you don’t have one yet.
