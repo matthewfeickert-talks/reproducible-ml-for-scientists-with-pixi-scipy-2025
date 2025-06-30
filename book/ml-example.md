@@ -391,7 +391,7 @@ We'll download Python code that uses the same PyTorch convocational neural netwo
 This code is [licensed under the MIT license](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/LICENSE).
 
 ```bash
-curl -sLO https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST_inference.py
+curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST_inference.py
 mkdir -p src
 mv torch_MNIST_inference.py src/
 ```
