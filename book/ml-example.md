@@ -387,7 +387,7 @@ as the task name was unique in the workspace and so Pixi is able to determine it
 Now that we've trained our model we'd like to be able to use it to perform machine learning inference (model prediction).
 However, we might want to perform inference in a _different software_ environment than the environment we used for model _training_.
 
-We'll download Python code that uses the same PyTorch convocational neural network architecture in `Mtorch_MNIST.py` to load the model and an image and make a predict what number the image contains and place it under a `src/` directory.
+We'll download Python code that uses the same PyTorch convocational neural network architecture in `torch_MNIST.py` to load the model and an image and make a predict what number the image contains and place it under a `src/` directory.
 This code is [licensed under the MIT license](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/LICENSE).
 
 ```bash
