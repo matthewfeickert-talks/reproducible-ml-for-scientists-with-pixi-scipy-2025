@@ -490,7 +490,7 @@ Prediction: 4
 
 ::: {note} Real world model inference
 
-In the real world you're probably not writing a from scratch Python script to perform ML inference, but using a tool like [NVIDIA Triton Inference Server](https://github.com/triton-inference-server/server).
+In the real world you're probably not writing a Python script  from scratch to perform ML inference, but using a tool like [NVIDIA Triton Inference Server](https://github.com/triton-inference-server/server).
 However, for this tutorial it is fine to do this more explicit, but less useful, example.
 
 :::
