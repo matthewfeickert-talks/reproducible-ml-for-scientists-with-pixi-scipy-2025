@@ -12,7 +12,7 @@ We'll download Python code that uses a convocational neural network written in P
 This is a modified example from the PyTorch documentation (https://github.com/pytorch/examples/blob/main/mnist/main.py) which is [licensed under the BSD 3-Clause license](https://github.com/pytorch/examples/blob/abfa4f9cc4379de12f6c340538ef9a697332cccb/LICENSE).
 
 ```bash
-curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/c7889222544928fb6f9fdeb1145767272b5cfec8/torch_MNIST.py
+curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST.py
 mkdir -p src
 mv torch_MNIST.py src/
 ```
@@ -384,7 +384,17 @@ as the task name was unique in the workspace and so Pixi is able to determine it
 
 ## Performing inference with the trained model
 
-TODO
+Now that we've trained our model we'd like to be able to use it to perform machine learning inference (model prediction).
+However, we might want to perform inference in a _different software_ environment than the environment we used for model _training_.
+
+We'll download Python code that uses the same PyTorch convocational neural network architecture in `torch_MNIST.py` to load the model and an image and make a predict what number the image contains and place it under a `src/` directory.
+This code is [licensed under the MIT license](https://github.com/matthewfeickert/nvidia-gpu-ml-library-test/blob/36c725360b1b1db648d6955c27bd3885b29a3273/LICENSE).
+
+```bash
+curl -sLO https://raw.githubusercontent.com/matthewfeickert/nvidia-gpu-ml-library-test/36c725360b1b1db648d6955c27bd3885b29a3273/torch_MNIST_inference.py
+mkdir -p src
+mv torch_MNIST_inference.py src/
+```
 
 :::: {tip} Add an `inference` environment that uses the `gpu` feature and an `inference` feature
 
@@ -458,3 +468,29 @@ inference = ["gpu", "inference"]
 
 :::
 ::::
+
+Now that we've added an `inference` environment to the workspace, use it to predict the value of the default image.
+
+```bash
+pixi run --environment inference python src/torch_MNIST_inference.py --model-path ./mnist_cnn.pt --image-path ./test_image.png
+```
+```
+Label: 4, Prediction: 4
+```
+
+As we didn't have an image yet to run on, we loaded one from the MNIST training set, and as we know the labels there we include the label output.
+If we load the image from disk without knowing this, then we get just the prediction values.
+
+```bash
+pixi run --environment inference python src/torch_MNIST_inference.py --model-path ./mnist_cnn.pt --image-path ./test_image.png
+```
+```
+Prediction: 4
+```
+
+::: {note} Real world model inference
+
+In the real world you're probably not writing a Python script  from scratch to perform ML inference, but using a tool like [NVIDIA Triton Inference Server](https://github.com/triton-inference-server/server).
+However, for this tutorial it is fine to do this more explicit, but less useful, example.
+
+:::
