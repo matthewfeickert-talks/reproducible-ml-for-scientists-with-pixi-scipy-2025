@@ -20,6 +20,22 @@ pixi run python -c 'print("Hello, Pixi!")'
 # 4
 pixi run python -c 'import sys; print(sys.version); print(sys.executable)'
 ```
+Resulting `pixi.toml` file:
+```toml
+:filename: pixi.toml
+:linenos:
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge"]
+name = "my-project"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+```
 :::
 
 ## Exercise 2: Dependencies
@@ -52,6 +68,30 @@ pixi list
 pixi list -x
 pixi tree
 ```
+Resulting `pixi.toml` file:
+```{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 3,5,12-18
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "my-project"
+platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+scipy = ">=1.16.0,<2"
+numpy = ">=2.3.0,<3"
+fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
+
+[pypi-dependencies]
+pandas = ">=2.3.0, <3"
+pytest = { git = "https://github.com/pytest-dev/pytest" }
+```
 :::
 
 ## Exercise 3: Modifying dependencies
@@ -71,6 +111,30 @@ pixi remove pandas --pypi
 pixi add scipy==1.15.1
 # 3
 pixi add pytest --pypi --git https://github.com/pytest-dev/pytest.git --tag 8.3.1
+```
+Resulting `pixi.toml` file:
+```{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 12,15,18
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "my-project"
+platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+scipy = "==1.15.1"
+numpy = ">=2.3.0,<3"
+fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
+pandas = ">=2.3.0,<3"
+
+[pypi-dependencies]
+pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
 ```
 :::
 
@@ -116,6 +180,38 @@ pixi workspace environment add default --solve-group group1 --force
 pixi list -x -e test
 pixi list -x
 ```
+Resulting `pixi.toml` file:
+```{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 17,20-26
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "my-project"
+platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+scipy = "==1.15.1"
+numpy = ">=2.3.0,<3"
+fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
+pandas = ">=2.3.0,<3"
+
+[feature.test.pypi-dependencies]
+pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
+
+[feature.format.dependencies]
+ruff = "*"
+
+[environments]
+test = { features = ["test"], solve-group = "group1" }
+format = { features = ["format"], no-default-feature = true }
+default = { solve-group = "group1" }
+```
 ::::
 
 
@@ -138,7 +234,7 @@ pixi task add greet 'echo "Hello, {{ name }}!"' --arg name
 # 3
 pixi task add greet-YOUR_NAME --depends-on greet::YOUR_NAME
 # 4
-pixi task add start --depends-on hello --depends-on greet::{{ name }} --arg name
+pixi task add start --depends-on hello --depends-on "greet::{{ name }}" --arg name
 # 5
 pixi run hello
 pixi run greet your_name
@@ -148,6 +244,45 @@ pixi run start your_name
 pixi task add fmt 'ruff --version' --feature format
 # 7 Notice that it automatically runs in the `format` environment.
 pixi run fmt
+```
+Resulting `pixi.toml` file:
+```{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 9-12
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "my-project"
+platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+hello = 'echo "Hello, Pixi!"'
+greet = { cmd = 'echo "Hello, {{ name }}!"', args = ["name"] }
+greet-YOUR_NAME = [{ task = "greet", args = ["YOUR_NAME"] }]
+start = { args = ["name"], depends-on = [{ task = "hello" }, { task = "greet", args = ["{{ name }}"] }] }
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+scipy = "==1.15.1"
+numpy = ">=2.3.0,<3"
+fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
+pandas = ">=2.3.0,<3"
+
+[feature.test.pypi-dependencies]
+pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
+
+[feature.format.dependencies]
+ruff = "*"
+
+[feature.format.tasks]
+fmt = "ruff --version"
+
+[environments]
+test = { features = ["test"], solve-group = "group1" }
+format = { features = ["format"], no-default-feature = true }
+default = { solve-group = "group1" }
 ```
 :::
 
@@ -178,5 +313,48 @@ pixi shell
 echo $MY_ENV_VAR
 # Or on Windows:
 echo %MY_ENV_VAR%
+```
+Resulting `pixi.toml` file:
+```{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 8,9,16
+[workspace]
+authors = ["Jane Doe <jane.doe@example.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "my-project"
+platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[activation.env]
+MY_ENV_VAR = "Hello, Pixi!"
+
+[tasks]
+hello = 'echo "Hello, Pixi!"'
+greet = { cmd = 'echo "Hello, {{ name }}!"', args = ["name"] }
+greet-YOUR_NAME = [{ task = "greet", args = ["YOUR_NAME"] }]
+start = { args = ["name"], depends-on = [{ task = "hello" }, { task = "greet", args = ["{{ name }}"] }] }
+print-env = "echo $MY_ENV_VAR"
+
+[dependencies]
+python = ">=3.13.5,<3.14"
+scipy = "==1.15.1"
+numpy = ">=2.3.0,<3"
+fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
+pandas = ">=2.3.0,<3"
+
+[feature.test.pypi-dependencies]
+pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
+
+[feature.format.dependencies]
+ruff = "*"
+
+[feature.format.tasks]
+fmt = "ruff --version"
+
+[environments]
+test = { features = ["test"], solve-group = "group1" }
+format = { features = ["format"], no-default-feature = true }
+default = { solve-group = "group1" }
 ```
 ::::
