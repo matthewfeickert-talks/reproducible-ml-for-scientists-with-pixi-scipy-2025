@@ -624,7 +624,6 @@ wc -l pixi.toml
 we created separate CPU and GPU computational environments that are now fully reproducible with the associated `pixi.lock`!
 
 :::
-::::
 
 
 ::: {important} Further references
