@@ -1,6 +1,14 @@
 # Pixi: exercises
 This page contains exercises to help you practice the concepts learned in the Pixi introduction. Each exercise is designed to reinforce your understanding of Pixi's features and capabilities.
 
+::: {warning}
+To make sure you do all this work in the same github repository, please first move to the `reproducible-ml-scipy-2025` directory you created in the [setup](setup.md) section.
+
+```bash
+cd ~/reproducible-ml-scipy-2025
+```
+:::
+
 ## Exercise 1: Creating a project
 1. Create a new Pixi project named `my-project` using the command line.
 2. Add `python` as a dependency to your project.
@@ -11,8 +19,8 @@ This page contains exercises to help you practice the concepts learned in the Pi
 :class: dropdown
 ```bash
 # 1
-pixi init my-project
-cd my-project
+pixi init ~/reproducible-ml-scipy-2025/my-project
+cd ~/reproducible-ml-scipy-2025/my-project
 # 2
 pixi add python
 # 3
@@ -356,5 +364,19 @@ fmt = "ruff --version"
 test = { features = ["test"], solve-group = "group1" }
 format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
+```
+::::
+
+## Exercise 7: Push the project to GitHub
+1. Make sure you have a GitHub repository created for this workshop, like described in the [setup](setup.md) section.
+2. Commit your changes to the local repository.
+3. Push your changes to the remote GitHub repository.
+::::{hint} Solution
+:class: dropdown
+```bash
+# 1:
+git commit -am "Completed Pixi exercises"
+# 2:
+git push origin main
 ```
 ::::

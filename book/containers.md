@@ -306,7 +306,7 @@ jobs:
 
 This will build your Dockerfile in GitHub Actions CI into a [`linux/amd64` platform](https://docs.docker.com/build/building/multi-platform/) Docker container image and then deploy it to the [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (`ghcr`) associated with your repository.
 
-When your container image has finished building, you can view it and its tags on GitHub at: `https://github.com/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025/pkgs/container/reproducible-ml-for-scientists-tutorial-scipy-2025`
+When your container image has finished building, you can view it and its tags on GitHub at: `https://github.com/<your GitHub username>/reproducible-ml-scipy-2025/pkgs/container/reproducible-ml-scipy-2025`
 
 ## Using the containerized environment on Brev
 
@@ -330,13 +330,13 @@ pixi global install crane
 and then use [`crane ls`](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane_ls.md) to list all of the container images in your container registry for the particular image
 
 ```bash
-crane ls ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025
+crane ls ghcr.io/<your GitHub username>/reproducible-ml-scipy-2025
 ```
 
 Our Brev environment already has Docker installed on it, so we can now pull down the Docker container using [`docker pull`](https://docs.docker.com/reference/cli/docker/image/pull/).
 
 ```bash
-docker pull ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025:sha-<the commit sha short>
+docker pull ghcr.io/<your GitHub username>/reproducible-ml-scipy-2025:sha-<the commit sha short>
 ```
 
 Once that is finished we can confirm that the container image exists in our local container registry with
@@ -353,7 +353,7 @@ docker run \
     -ti \
     --gpus all \
     -v $PWD:/work \
-    ghcr.io/<your GitHub username>/reproducible-ml-for-scientists-tutorial-scipy-2025:sha-<the commit sha short> bash
+    ghcr.io/<your GitHub username>/reproducible-ml-scipy-2025:sha-<the commit sha short> bash
 ```
 
 ::: {important} `docker run` walkthrough

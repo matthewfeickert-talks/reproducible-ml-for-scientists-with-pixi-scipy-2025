@@ -40,11 +40,11 @@ This is just expanding the exercises from the CUDA conda packages exercise.
 Create a new workspace
 
 ```bash
-pixi init ~/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example
-cd ~/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example
+pixi init ~/reproducible-ml-scipy-2025/ml-example
+cd ~/reproducible-ml-scipy-2025/ml-example
 ```
 ```
-✔ Created /home/<username>/reproducible-ml-for-scientists-tutorial-scipy-2025/ml-example/pixi.toml
+✔ Created /home/<username>/reproducible-ml-scipy-2025/ml-example/pixi.toml
 ```
 
 Let's first add all the platforms we want to work with to the workspace
