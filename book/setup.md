@@ -185,7 +185,7 @@ To streamline this we recommend using the [GitHub CLI](https://cli.github.com/) 
 
 Now you have a GitHub repository set up to store your work from this tutorial.
 
-### Prepare Brev Instance
+## Prepare Brev Instance
 #### Create an NVIDIA Brev account
 
 To access the NVIDIA Brev instance you'll also need to create an NVIDIA Brev account.
