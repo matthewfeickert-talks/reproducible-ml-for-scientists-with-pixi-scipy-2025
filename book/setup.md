@@ -219,7 +219,11 @@ The particular configuration we'll be using is:
 * 16GiB Ram x 4 CPUS
 * GCP
 
-Select it from the [Brev new environment page](https://brev.nvidia.com/environment/new) **OR** run the following command to create a new instance with the same configuration:
+You can select it from the [Brev new environment page](https://brev.nvidia.com/environment/new)
+
+[![brev-new-environment](./images/brev-new-environment-view.png)](https://brev.nvidia.com/environment/new)
+
+**OR** run the following command to create a new instance with the same configuration:
 
 ```bash
 brev create pixi-cuda --gpu g2-standard-4:nvidia-l4:1
