@@ -153,35 +153,24 @@ This will allow you to easily share your work with others and keep track of your
 
 To streamline this we recommend using the [GitHub CLI](https://cli.github.com/) to create the repository.
 
-1. Create a new directory for your project and navigate into it:
-   ```bash
-   mkdir ~/reproducible-ml-scipy-2025
-   cd ~/reproducible-ml-scipy-2025
-   ```
-2. Initialize a new git repository and create a README file:
-   ```bash
-   # Initialize a new git repository
-   git init
-   # Create a README file
-   echo "# Reproducible Machine Learning Workflows for Scientists with Pixi at SciPy 2025" > README.md
-   # Add the README file to the repository
-   git add README.md
-   # Commit the changes
-   git commit -m "Initial commit with README"
-   ```
+Feel free to change any of the options below to suit your needs, but the following command will create a new public repository with a README, a Python [`.gitignore`](https://docs.github.com/en/get-started/git-basics/ignoring-files), and an MIT [license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository):
 
-3. Create the GitHub repository:
-   ```bash
-   gh repo create reproducible-ml-scipy-2025 \
-      --public \
-      --description "Reproducible Machine Learning Workflows for Scientists with Pixi at SciPy 2025" \
-      --source .
-   ```
+```bash
+gh repo create reproducible-ml-scipy-2025 \
+   --public \
+   --description "Reproducible Machine Learning Workflows for Scientists with Pixi at SciPy 2025" \
+   --add-readme \
+   --gitignore Python \
+   --license MIT \
+   --clone
+```
 
-4. Push code to the repository:
-   ```bash
-   git push -u origin main
-   ```
+Because of the `--clone` option, this will also clone the newly created repository to your local machine.
+Now you can navigate to the newly created repository directory:
+
+```bash
+cd reproducible-ml-scipy-2025
+```
 
 Now you have a GitHub repository set up to store your work from this tutorial.
 
