@@ -123,6 +123,9 @@ and then install the [`cuda-version` metapackage](https://github.com/conda-forge
 ```bash
 pixi add "cuda-version 12.9.*"
 ```
+```
+✔ Added cuda-version 12.9.*
+```
 
 :::{code} toml
 :filename: pixi.toml
@@ -192,7 +195,7 @@ However, there's many situations in which you want to **solve and environment fo
 
 There are two important features we're going to use here:
 - `target` specific configuration, to add dependencies for a specific `platform`.
-- `feature` specific configuration, to create multiple `environments`.
+- `feature` specific configuration, to create [multiple `environments`](./pixi.md#multiple-environments).
 
 If we make the Pixi workspace multiplatform
 
@@ -398,14 +401,15 @@ Active GPU index: 0
 Active GPU name: NVIDIA L4
 ```
 
-### Multi-environment Pixi workspaces Exercise
+## Exercise: Multi-environment Pixi workspaces
 Now that you have a basic understanding of how to use CUDA with Pixi, let's put this knowledge into practice with an exercise.
 
-Create a new Pixi workspace that:
+::::{tip} Exercise: Create a new Pixi workspace that:
 
 * Contains an environment named `cpu` for `linux-64`, `osx-arm64`, and `win-64` that supports the CPU version of PyTorch
-* Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch
-* Supports CUDA `v12.9`
+* Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch and supports CUDA `v12.9`
+
+::::
 
 :::: {hint} Solution
 :class: dropdown
