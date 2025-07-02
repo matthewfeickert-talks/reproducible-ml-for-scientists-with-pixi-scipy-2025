@@ -407,7 +407,7 @@ Create a new Pixi workspace that:
 * Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch
 * Supports CUDA `v12.9`
 
-::: {hint} Solution
+:::: {hint} Solution
 :class: dropdown
 
 Create a new workspace
@@ -431,25 +431,20 @@ pixi workspace platform add linux-64 osx-arm64 win-64
 ✔ Added win-64
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 4
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
 platforms = ["linux-64", "osx-arm64", "win-64"]
-version = "0.1.0"
-
-[tasks]
-
-[dependencies]
-```
+:::
 
 As a common requirement across all environments, let's add Python
 
 ```bash
 pixi add python
-```
-```
-✔ Added python >=3.13.5,<3.1
 ```
 
 Now, add `pytorch-cpu` to a `cpu` feature
@@ -457,18 +452,11 @@ Now, add `pytorch-cpu` to a `cpu` feature
 ```bash
 pixi add --feature cpu pytorch-cpu
 ```
-```
-✔ Added pytorch-cpu
-Added these only for feature: cpu
-```
 
 and then create a `cpu` environment that contains the `cpu` feature
 
 ```bash
 pixi workspace environment add --feature cpu cpu
-```
-```
-✔ Added environment cpu
 ```
 
 and then instantiate the `pytorch-cpu` package with a particular version and solve
@@ -476,12 +464,11 @@ and then instantiate the `pytorch-cpu` package with a particular version and sol
 ```bash
 pixi add --feature cpu pytorch-cpu
 ```
-```
-✔ Added pytorch-cpu >=2.7.1,<3
-Added these only for feature: cpu
-```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 9,10,11,12,13,14,15,16
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -498,7 +485,7 @@ pytorch-cpu = ">=2.7.1,<3"
 
 [environments]
 cpu = ["cpu"]
-```
+:::
 
 Now, for the GPU environment, add CUDA system-requirements for `linux-64` for the `gpu` feature
 
@@ -506,7 +493,10 @@ Now, for the GPU environment, add CUDA system-requirements for `linux-64` for th
 pixi workspace system-requirements add --feature gpu cuda 12
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 15,16
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -526,53 +516,66 @@ cuda = "12"
 
 [environments]
 cpu = ["cpu"]
-```
+:::
 
 and create a `gpu` environment with the `gpu` feature
 
 ```bash
 pixi workspace environment add --feature gpu gpu
 ```
-```
-✔ Added environment gpu
-```
 
-```toml
-[workspace]
-channels = ["conda-forge"]
-name = "cuda-exercise"
-platforms = ["linux-64", "osx-arm64", "win-64"]
-version = "0.1.0"
-
-[tasks]
-
-[dependencies]
-python = ">=3.13.5,<3.14"
-
-[feature.cpu.dependencies]
-pytorch-cpu = ">=2.7.1,<3"
-
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 6
 [feature.gpu.system-requirements]
 cuda = "12"
 
 [environments]
 cpu = ["cpu"]
 gpu = ["gpu"]
-```
+:::
 
 then add the `cuda-version` metapackage and the `pytorch-gpu` pacakge for `linux-64` to the `gpu` feature
 
 ```bash
 pixi add --platform linux-64 --feature gpu 'cuda-version 12.9.*' pytorch-gpu
 ```
-```
-✔ Added cuda-version 12.9.*
-✔ Added pytorch-gpu >=2.7.1,<3
-Added these only for platform(s): linux-64
-Added these only for feature: gpu
+
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 4,5,6
+[feature.gpu.system-requirements]
+cuda = "12"
+
+[feature.gpu.target.linux-64.dependencies]
+cuda-version = "12.9.*"
+pytorch-gpu = ">=2.7.1,<3"
+
+[environments]
+cpu = ["cpu"]
+gpu = ["gpu"]
+:::
+
+One can check the environment differences
+
+```bash
+pixi list --environment cpu
+pixi list --environment gpu
 ```
 
-```toml
+and activate shells with different environments loaded
+
+```bash
+pixi shell --environment cpu
+```
+
+So in 24 lines of TOML
+
+:::{code} toml
+:filename: pixi.toml
+:linenos:
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -597,33 +600,11 @@ pytorch-gpu = ">=2.7.1,<3"
 [environments]
 cpu = ["cpu"]
 gpu = ["gpu"]
-```
-
-One can check the environment differences
-
-```bash
-pixi list --environment cpu
-pixi list --environment gpu
-```
-
-and activate shells with different environments loaded
-
-```bash
-pixi shell --environment cpu
-```
-
-So in 24 lines of TOML
-
-```bash
-wc -l pixi.toml
-```
-```
-24 pixi.toml
-```
+:::
 
 we created separate CPU and GPU computational environments that are now fully reproducible with the associated `pixi.lock`!
 
-:::
+::::
 
 
 ::: {important} Further references
