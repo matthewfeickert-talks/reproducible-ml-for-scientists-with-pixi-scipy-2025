@@ -246,6 +246,7 @@ Please install the following software on your Brev instance:
 ```bash
 # Pixi
 curl -fsSL https://pixi.sh/install.sh | sh
+echo -e '\neval "$(pixi completion --shell bash)"' >> ~/.bashrc
 source ~/.bashrc
 # Additional tools
 pixi global install gh
