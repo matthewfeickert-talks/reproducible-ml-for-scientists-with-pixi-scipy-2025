@@ -404,12 +404,11 @@ Active GPU name: NVIDIA L4
 ## Exercise: Multi-environment Pixi workspaces
 Now that you have a basic understanding of how to use CUDA with Pixi, let's put this knowledge into practice with an exercise.
 
-::::{tip} Exercise: Create a new Pixi workspace that:
+:::::{tip} Exercise: Create a new Pixi workspace that:
 
 * Contains an environment named `cpu` for `linux-64`, `osx-arm64`, and `win-64` that supports the CPU version of PyTorch
 * Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch and supports CUDA `v12.9`
 
-::::
 
 :::: {hint} Solution
 :class: dropdown
@@ -609,7 +608,7 @@ gpu = ["gpu"]
 we created separate CPU and GPU computational environments that are now fully reproducible with the associated `pixi.lock`!
 
 ::::
-
+:::::
 
 ::: {important} Further references
 
