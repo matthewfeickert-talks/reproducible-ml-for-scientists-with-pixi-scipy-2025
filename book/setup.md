@@ -222,7 +222,7 @@ The particular configuration we'll be using is:
 Select it from the [Brev new environment page](https://brev.nvidia.com/environment/new) **OR** run the following command to create a new instance with the same configuration:
 
 ```bash
-brev create pixi-cuda -g g2-standard-4:nvidia-l4:1
+brev create pixi-cuda --gpu g2-standard-4:nvidia-l4:1
 ```
 
 #### Access the NVIDIA Brev instance on your machine
