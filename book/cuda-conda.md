@@ -16,15 +16,38 @@ CUDA software environments were bespoke and not many scientists understood how t
 
 ### Initial implementation
 
-After discussion in [late 2018](https://github.com/conda-forge/conda-forge.github.io/issues/687) to better support the scientific developer community, the CUDA packaging community agreed to use the [Anaconda `defaults` channel](https://www.anaconda.com/docs/tools/working-with-conda/reference/default-channels)'s `cudatoolkit` package. Initially the `cudatoolkit` package was designed around [Numba's CUDA needs]( https://github.com/numba/conda-recipe-cudatoolkit ). Though it evolved to a bundle of redistributable CUDA libraries. In 2019, NVIDIA began packaging the `cudatoolkit` package in the [`nvidia` conda channel](https://anaconda.org/nvidia). With help from the broader community, the `cudatoolkit` package was added to [`conda-forge` in 2020]( https://github.com/conda-forge/staged-recipes/pull/12882 ). For the first time, this provided users the ability to specify different versions of CUDA libraries and download them in newly created Conda environments.
+After discussion in [late 2018](https://github.com/conda-forge/conda-forge.github.io/issues/687) to better support the scientific developer community, the CUDA packaging community agreed to use the [Anaconda `defaults` channel](https://www.anaconda.com/docs/tools/working-with-conda/reference/default-channels)'s `cudatoolkit` package.
+Initially the `cudatoolkit` package was designed around [Numba's CUDA needs](https://github.com/numba/conda-recipe-cudatoolkit), though it evolved to a bundle of redistributable CUDA libraries.
+In 2019, NVIDIA began packaging the `cudatoolkit` package in the [`nvidia` conda channel](https://anaconda.org/nvidia).
+With help from the broader community, the `cudatoolkit` package was added to [`conda-forge` in 2020](https://github.com/conda-forge/staged-recipes/pull/12882).
+For the first time, this provided users the **ability to specify different versions of CUDA libraries** and download them in newly created Conda environments.
 
-Supporting initial conda-forge CUDA builds required additional components. First, [a conda-forge Docker image]( https://github.com/conda-forge/docker-images/pull/93 ) using [the NVIDIA CUDA Docker images]( https://hub.docker.com/r/nvidia/cuda/ ), which provided the NVIDIA build tools for compiling packages. Second, [a shim package]( https://github.com/conda-forge/staged-recipes/pull/8229 ) to leverage the NVIDIA build tools within a Conda package build. Third, [a CUDA build matrix in conda-forge's global pinnings]( https://github.com/conda-forge/conda-forge-pinning-feedstock/pull/285 ), which tied these two pieces together. These ideas were tied together in [the first package build on September 20, 2019](https://github.com/conda-forge/ucx-split-feedstock/pull/14), and the initial implementation of this work was completed later in 2019. In 2020, support was expanded to [Windows CUDA builds]( https://github.com/conda-forge/conda-forge-pinning-feedstock/pull/914 ). Lots of iteration on this work happened after, all using the same basic foundation.
+Supporting initial conda-forge CUDA builds required additional components.
+* First, [a conda-forge Docker image](https://github.com/conda-forge/docker-images/pull/93) using [the NVIDIA CUDA Docker images](https://hub.docker.com/r/nvidia/cuda/), which provided the NVIDIA build tools for compiling packages.
+* Second, [a shim package](https://github.com/conda-forge/staged-recipes/pull/8229) to leverage the NVIDIA build tools within a Conda package build.
+* Third, [a CUDA build matrix in conda-forge's global pinnings](https://github.com/conda-forge/conda-forge-pinning-feedstock/pull/285), which tied these two pieces together.
+
+These ideas were tied together in [the first package build on September 20, 2019](https://github.com/conda-forge/ucx-split-feedstock/pull/14), and the initial implementation of this work was completed later in 2019. In 2020, support was expanded to [Windows CUDA builds](https://github.com/conda-forge/conda-forge-pinning-feedstock/pull/914).
+Lots of iteration on this work happened after, all using the same basic foundation.
 
 ### Revised implementation
 
-After some time using the packages and build process above, a few observations became clear. First, some packages used only a subset of the libraries like the driver, the CUDA runtime library, or particular library components like cuBLAS. However the `cudatoolkit` package shipped considerably more than that. So having finer specifications of dependencies would provider a better package maintainer and end-user experience. Second, some packages needed components that were not part of the `cudatoolkit` bundle like other libraries or parts of the build toolchain. Having some way to depend on these components would improve usability. Third, the infrastructure management overhead of custom Docker images and their integration into the conda-forge build matrix was cumbersome for conda-forge maintainers. Being able to install and use the build tools directly would simplify maintenance and benefit end-users wishing to use these build tools.
+After some time using the packages and build process above, a few observations became clear.
+First, some packages used only a subset of the libraries, like the driver, the CUDA runtime library, or particular library components like cuBLAS.
+However, the `cudatoolkit` package shipped considerably more than that, so having finer specifications of dependencies would provide a better package maintainer and end-user experience.
+Second, some packages needed components that were not part of the `cudatoolkit` bundle like other libraries or parts of the build toolchain.
+Having some way to depend on these components would improve usability.
+Third, the infrastructure management overhead of custom Docker images and their integration into the conda-forge build matrix was cumbersome for conda-forge maintainers.
+Being able to install and use the build tools directly would simplify maintenance and benefit end-users wishing to use these build tools.
 
-To address these issues, NVIDIA began working on a revised set of packages. These more closely matched packages in other distribution channels (like Linux distro package managers). These were adapted to the Conda user experience. For example, Linux distros often install packages at the system level, which differs from the first-class userspace environment experience that Conda provides. So some distinctions that a Linux distro provides are unneeded in Conda. Though there are also some differences like how Conda pins the version of dependencies or how compilers work (or are packaged). Initial production of the packages were made on the `nvidia` channel. However, all of this work was being done internally in NVIDIA and published to a separate channel. This made the packages less visible and required additional knowledge to use.
+To address these issues, NVIDIA began working on a revised set of packages.
+These more closely matched packages in other distribution channels (like Linux distro package managers).
+These were adapted to the Conda user experience.
+For example, Linux distros often install packages at the system level, which differs from the first-class userspace environment experience that Conda provides.
+So some distinctions that a Linux distro provides are unneeded in Conda.
+Though there are also some differences, like how Conda pins the version of dependencies or how compilers work (or are packaged).
+Initial production of the packages were made on the `nvidia` channel, however, all of this work was being done internally in NVIDIA and published to a separate channel.
+This made the packages less visible and required additional knowledge to use.
 
 In [2023](https://youtu.be/WgKwlGgVzYE?si=hfyAo6qLma8hnJ-N), NVIDIA began adding the releases of CUDA conda packages from the `nvidia` channel to conda-forge, making it easier to discover and allowing for community support.
 Given the new package structure, NVIDIA added the packages for CUDA 12.0 to indicate the breaking change.
