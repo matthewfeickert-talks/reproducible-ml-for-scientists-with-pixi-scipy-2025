@@ -9,7 +9,7 @@ cd ~/reproducible-ml-scipy-2025
 ```
 :::
 
-## Exercise 1: Creating a project
+::::{tip} Exercise 1: Creating a project
 1. Create a new Pixi project named `my-project` using the command line.
 2. Add `python` as a dependency to your project.
 3. Use the Pixi installed Python to print `"Hello, Pixi!"` to the console.
@@ -45,8 +45,9 @@ version = "0.1.0"
 python = ">=3.13.5,<3.14"
 ```
 :::
+::::
 
-## Exercise 2: Dependencies
+::::{tip} Exercise 2: Dependencies
 1. Make your project work for Windows, macOS, and Linux.
 2. Add `scipy` as a dependency through the command line.
 3. Add `numpy` as a dependency through the command line.
@@ -101,8 +102,9 @@ pandas = ">=2.3.0, <3"
 pytest = { git = "https://github.com/pytest-dev/pytest" }
 ```
 :::
+::::
 
-## Exercise 3: Modifying dependencies
+::::{tip} Exercise 3: Modifying dependencies
 1. Replace `pandas` with a conda dependency on `pandas` from the `conda-forge` channel. Hint: make sure it worked by checking the environment with `pixi list pandas`
 2. Require the `scipy` dependency to be version `1.15.1`.
 3. Make the `pytest` use version `8.3.1` from the `git` repository.
@@ -145,8 +147,9 @@ pandas = ">=2.3.0,<3"
 pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
 ```
 :::
+::::
 
-## Exercise 4: Multiple environments
+:::::{tip} Exercise 4: Multiple environments
 1. Make `pytest` part of the `test` feature.
 2. Create a new environment named `test` that includes the `test` feature.
 3. Install the `test` environment.
@@ -221,9 +224,9 @@ format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
 ```
 ::::
+:::::
 
-
-## Exercise 5: Task running
+:::::{tip} Exercise 5: Task running
 1. Create a task named `hello` that prints `"Hello, Pixi!"` to the console.
 2. Create a task named `greet` that prints `"Hello, <name>!"` to the console, where `<name>` is a argument passed to the task.
 3. Create a task named `greet-YOUR_NAME` that prints `"Hello, YOUR_NAME!"` to the console, where it depends on the `greet` task and gives it an argument.
@@ -293,8 +296,9 @@ format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
 ```
 :::
+:::::
 
-## Exercise 6: Activation
+:::::{tip} Exercise 6: Activation
 1. Set an environment variable named `MY_ENV_VAR` to the value `Hello, Pixi!` in the `default` environment.
 2. Create a task named `print-env` that prints the value of `MY_ENV_VAR` to the console.
 3. Run the `print-env` task in the `default` environment to ensure it prints the correct value.
@@ -366,8 +370,9 @@ format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
 ```
 ::::
+:::::
 
-## Exercise 7: Push the project to GitHub
+:::::{tip} Exercise 7: Push the project to GitHub
 1. Make sure you have a GitHub repository created for this workshop, like described in the [setup](setup.md) section.
 2. Commit your changes to the local repository.
 3. Push your changes to the remote GitHub repository.
@@ -380,3 +385,4 @@ git commit -am "Completed Pixi exercises"
 git push origin main
 ```
 ::::
+:::::

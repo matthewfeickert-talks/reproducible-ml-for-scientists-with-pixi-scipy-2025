@@ -170,9 +170,12 @@ ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 With this `Dockerfile` the container image can then be built with [`docker build`](https://docs.docker.com/reference/cli/docker/buildx/build/).
 
-::: {tip} Write a `Dockerfile` that will create a Linux container with the `gpu` environment from the previous exercises Pixi workspace.
+::::{tip} Exercise: Create a Dockerfile
 :class: dropdown
+Write a `Dockerfile` that will create a Linux container with the `gpu` environment from the previous exercises Pixi workspace.
 
+:::{hint} Solution
+:class: dropdown
 ```dockerfile
 FROM ghcr.io/prefix-dev/pixi:noble AS build
 
@@ -197,8 +200,8 @@ COPY --from=build --chmod=0755 /app/entrypoint.sh /app/entrypoint.sh
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
 ```
-
 :::
+::::
 
 ## Automation with GitHub Actions workflows
 

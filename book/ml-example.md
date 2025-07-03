@@ -23,7 +23,7 @@ Now let's think about what we need to use this code.
 Looking at the imports of `src/torch_MNIST.py` we can see that `torch` and `torchvision` are the only imported libraries that aren't part of the Python standard library, so we will need to depend on PyTorch and `torchvision`.
 We also know that we'd like to use CUDA accelerated code, so that we'll need CUDA libraries and versions of PyTorch that support CUDA.
 
-::::: {tip} Create the environment
+::::: {tip} Exercise: Create the environment
 
 Create a Pixi workspace that:
 
@@ -231,7 +231,9 @@ Train Epoch: 14 [59520/60000 (99%)]	Loss: 0.003314
 Test set: Average loss: 0.0268, Accuracy: 9919/10000 (99%)
 ```
 
-::::: {tip} Add `train-cpu` and `train-gpu` tasks to the Pixi workspace
+::::: {tip} Exercise 5: Task running
+Add `train-cpu` and `train-gpu` tasks to the Pixi workspace
+
 
 :::: {hint} Solution
 :class: dropdown
@@ -361,9 +363,10 @@ gpu = ["gpu"]
 ::::
 :::::
 
-::: {note} Task specification at the CLI
+::: {note} Task specific environments
 
-Note that to run these tasks now we can just run the task name
+When running tasks that only exist in one environment, Pixi will automatically use that environment.
+No need to specify the `--environment` flag when running the task.
 
 ```bash
 pixi run train-gpu
@@ -372,13 +375,11 @@ pixi run train-gpu
 ✨ Pixi task (train-gpu in gpu): python src/torch_MNIST.py --epochs 14 --save-model --data-dir data: (Train MNIST on GPU)
 ```
 
-without having to specify the task's environment
+Instead of:
 
 ```bash
 pixi run --environment gpu train-gpu
 ```
-
-as the task name was unique in the workspace and so Pixi is able to determine its environment automatically.
 
 :::
 
@@ -396,7 +397,8 @@ mkdir -p src
 mv torch_MNIST_inference.py src/
 ```
 
-:::: {tip} Add an `inference` environment that uses the `gpu` feature and an `inference` feature
+:::: {tip} Exercise: Add an inference environment
+Add an `inference` environment that uses the `gpu` feature and an `inference` feature
 
 ::: {hint} Solution
 :class: dropdown
