@@ -191,7 +191,7 @@ This will result in the following manifest file:
 ```{code} toml
 :filename: pixi.toml
 :linenos:
-:emphasize-lines: 11
+:emphasize-lines: 11-12
 [workspace]
 authors = ["Jane Doe <jane.doe@example.com>"]
 channels = ["https://prefix.dev/conda-forge"]

@@ -67,11 +67,11 @@ This ensures that packages depending on `__cuda >= {version}` are resolved corre
 To demonstrate this a bit more explicitly, we can create a minimal project
 
 ```bash
-pixi init ~/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-example
-cd ~/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-example
+pixi init ~/reproducible-ml-scipy-2025/cuda-example
+cd ~/reproducible-ml-scipy-2025/cuda-example
 ```
 ```
-✔ Created /home/<username>/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-example/pixi.toml
+✔ Created /home/<username>/reproducible-ml-scipy-2025/cuda-example/pixi.toml
 ```
 
 ### Adding CUDA system requirements
@@ -416,11 +416,11 @@ Now that you have a basic understanding of how to use CUDA with Pixi, let's put 
 Create a new workspace
 
 ```bash
-pixi init ~/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-exercise
-cd ~/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-exercise
+pixi init ~/reproducible-ml-scipy-2025/cuda-exercise
+cd ~/reproducible-ml-scipy-2025/cuda-exercise
 ```
 ```
-✔ Created /home/<username>/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-exercise/pixi.toml
+✔ Created /home/<username>/reproducible-ml-scipy-2025/cuda-exercise/pixi.toml
 ```
 
 Add support for all the target platforms
