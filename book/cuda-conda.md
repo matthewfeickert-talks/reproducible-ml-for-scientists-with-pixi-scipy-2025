@@ -57,8 +57,6 @@ To be able to effectively use CUDA conda packages with Pixi, we make use of Pixi
 
 To do this for CUDA, we just add the minimum supported CUDA version (based on the host machine's NVIDIA driver API) we want to support to the table.
 
-Example:
-
 ```toml
 [system-requirements]
 cuda = "12"  # Replace "12" with the specific CUDA version you intend to use
@@ -76,13 +74,18 @@ cd ~/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-example
 ✔ Created /home/<username>/reproducible-ml-for-scientists-tutorial-scipy-2025/cuda-example/pixi.toml
 ```
 
-where we specify a `cuda` system requirement
+### Adding CUDA system requirements
+We are going to specify a `cuda` system requirement, run the following command to add it to the workspace:
 
 ```bash
 pixi workspace system-requirements add cuda 12
 ```
 
-```toml
+This will result in the following `pixi.toml` file:
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 7-8
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-example"
@@ -91,15 +94,11 @@ version = "0.1.0"
 
 [system-requirements]
 cuda = "12"
+:::
 
-[tasks]
-
-[dependencies]
-```
-
-::: {caution} `system-requirements` table can't be target specific
-
-As of [Pixi `v0.48.2`](https://github.com/prefix-dev/pixi/releases/tag/v0.48.2), [the `system-requirements` table can't be target specific](https://github.com/prefix-dev/pixi/issues/2714).
+::: {note} `system-requirements` table can't be target specific
+:class: dropdown
+As of [Pixi `v0.49.0`](https://github.com/prefix-dev/pixi/releases/tag/v0.49.0), [the `system-requirements` table can't be target specific](https://github.com/prefix-dev/pixi/issues/2714).
 To work around this, if you're on a platform that doesn't support the `system-requirements` it will ignore them without erroring unless they are required for the platform specific packages or actions you have.
 So, for example, you can have `osx-arm64` as a platform and a `system-requirements` of `cuda = "12"` defined
 
@@ -117,7 +116,9 @@ Pixi will ignore that requirement unless you try to use CUDA packages in `osx-ar
 
 :::
 
-and then install the [`cuda-version` metapacakge](https://github.com/conda-forge/cuda-version-feedstock/blob/main/recipe/README.md)
+### Adding the `cuda-version` metapackage
+To ensure that the CUDA version is correctly specified, we can add the `cuda-version`,
+and then install the [`cuda-version` metapackage](https://github.com/conda-forge/cuda-version-feedstock/blob/main/recipe/README.md)
 
 ```bash
 pixi add "cuda-version 12.9.*"
@@ -126,7 +127,10 @@ pixi add "cuda-version 12.9.*"
 ✔ Added cuda-version 12.9.*
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 12,13
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-example"
@@ -140,14 +144,17 @@ cuda = "12"
 
 [dependencies]
 cuda-version = "12.9.*"
-```
+:::
 
-If we look at the metadata installed by the `cuda-version` package (the only thing it does)
+If we look at the metadata installed by the `cuda-version` package (the only thing it does), we see that it now enforces constraints on the versions of `cudatoolkit` that can be installed as well as the required `__cuda` virtual package provided by the system
 
 ```bash
 cat .pixi/envs/default/conda-meta/cuda-version-*.json
 ```
-```json
+:::{code} json
+:filename: .pixi/envs/default/conda-meta/cuda-version-*.json
+:linenos:
+:emphasize-lines: 4-7
 {
   "build": "h4f385c5_3",
   "build_number": 3,
@@ -179,50 +186,37 @@ cat .pixi/envs/default/conda-meta/cuda-version-*.json
     "type": 1
   }
 }
-```
+:::
 
-we see that it now enforces constraints on the versions of `cudatoolkit` that can be installed as well as the required `__cuda` virtual package provided by the system
-
-```json
-{
-  ...
-  "constrains": [
-    "cudatoolkit 12.9|12.9.*",
-    "__cuda >=12"
-  ],
-  ...
-}
-```
-
-
-::: {important} Use the `feature` table to solve environment that your platform doesn't support
-
+### Configure different setups for different types of machines
 CUDA is supported only by NVIDIA GPUs, which means that macOS operating system platforms (`osx-64`, `osx-arm64`) can't support it.
 Similarly, if you machine doesn't have an NVIDIA GPU, then the `__cuda` virtual package won't exist and installs of CUDA packages will fail.
 However, there's many situations in which you want to **solve and environment for a platform that you don't have** and we can do this for CUDA as well.
+
+There are two important features we're going to use here:
+- `target` specific configuration, to add dependencies for a specific `platform`.
+- `feature` specific configuration, to create [multiple `environments`](./pixi.md#multiple-environments).
 
 If we make the Pixi workspace multiplatform
 
 ```bash
 pixi workspace platform add linux-64 osx-arm64 win-64
 ```
-```
+```bash
 ✔ Added linux-64
 ✔ Added osx-arm64
 ✔ Added win-64
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 4
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-example"
 platforms = ["linux-64", "osx-arm64", "win-64"]
-version = "0.1.0"
-
-[tasks]
-
-[dependencies]
-```
+:::
 
 We can then use Pixi's [platform specific `target` tables](https://pixi.sh/latest/reference/pixi_manifest/#the-target-table) to add dependencies for an environment to only a specific platform.
 So, if we know that a dependency only exists for platform <platform> then we can have Pixi add it for only that platform with
@@ -231,7 +225,6 @@ So, if we know that a dependency only exists for platform <platform> then we can
 pixi add --platform <platform> <dependency>
 ```
 
-:::
 
 This now means that if we ask for any CUDA enbabled packages, we will get ones that are built to support `cudatoolkit` `v12.9.*`
 
@@ -342,38 +335,29 @@ pytorch-gpu = ">=2.7.1,<3"
 Note that we added the `cuda` package here for demonstraton purposes, but we didn't _need_ to as it would already be installed as a dependency of `pytorch-gpu`.
 
 ```bash
-cat .pixi/envs/default/conda-meta/pytorch-gpu-*.json
+pixi tree --platform linux-64 pytorch
 ```
-```json
-{
-  "build": "cuda126_mkl_ha999a5f_300",
-  "build_number": 300,
-  "depends": [
-    "pytorch 2.7.0 cuda*_mkl*300"
-  ],
-  "license": "BSD-3-Clause",
-  "license_family": "BSD",
-  "md5": "84ecafc34c6f8933c2c9b00204832e38",
-  "name": "pytorch-gpu",
-  "sha256": "e1162a51e77491abae15f6b651ba8f064870181d57d40f9168747652d0f70cb0",
-  "size": 47219,
-  "subdir": "linux-64",
-  "timestamp": 1746288556375,
-  "version": "2.7.0",
-  "fn": "pytorch-gpu-2.7.0-cuda126_mkl_ha999a5f_300.conda",
-  "url": "https://conda.anaconda.org/conda-forge/linux-64/pytorch-gpu-2.7.0-cuda126_mkl_ha999a5f_300.conda",
-  "channel": "https://conda.anaconda.org/conda-forge/",
-  "extracted_package_dir": "/home/<username>/.cache/rattler/cache/pkgs/pytorch-gpu-2.7.0-cuda126_mkl_ha999a5f_300",
-  "files": [],
-  "paths_data": {
-    "paths_version": 1,
-    "paths": []
-  },
-  "link": {
-    "source": "/home/<username>/.cache/rattler/cache/pkgs/pytorch-gpu-2.7.0-cuda126_mkl_ha999a5f_300",
-    "type": 1
-  }
-}
+This shows the tree of dependencies for the `pytorch-gpu` package, which includes the `cuda` packages as a dependency.
+```
+└── pytorch-gpu 2.7.1
+    └── pytorch 2.7.1
+        ├── __cuda
+        ├── __glibc
+        ├── _openmp_mutex 4.5
+        │   └── llvm-openmp 20.1.7
+        │       └── __glibc  (*)
+        ├── cuda-cudart 12.9.79
+        │   ├── __glibc  (*)
+        │   ├── cuda-cudart_linux-64 12.9.79
+        │   │   └── cuda-version 12.9
+        │   ├── cuda-version 12.9 (*)
+        │   ├── libgcc 15.1.0
+        │   │   ├── __glibc  (*)
+        │   │   └── _openmp_mutex 4.5 (*)
+        │   └── libstdcxx 15.1.0
+        │       ├── __glibc  (*)
+        │       └── libgcc 15.1.0 (*)
+        ...
 ```
 
 :::
@@ -417,15 +401,16 @@ Active GPU index: 0
 Active GPU name: NVIDIA L4
 ```
 
-:::: {tip} Multi-environment Pixi workspaces
+## Exercise: Multi-environment Pixi workspaces
+Now that you have a basic understanding of how to use CUDA with Pixi, let's put this knowledge into practice with an exercise.
 
-Create a new Pixi workspace that:
+:::::{tip} Exercise: Create a new Pixi workspace that:
 
 * Contains an environment named `cpu` for `linux-64`, `osx-arm64`, and `win-64` that supports the CPU version of PyTorch
-* Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch
-* Supports CUDA `v12.9`
+* Contains an environment named `gpu` for `linux-64` that supports the GPU version of PyTorch and supports CUDA `v12.9`
 
-::: {hint} Solution
+
+:::: {hint} Solution
 :class: dropdown
 
 Create a new workspace
@@ -449,25 +434,20 @@ pixi workspace platform add linux-64 osx-arm64 win-64
 ✔ Added win-64
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 4
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
 platforms = ["linux-64", "osx-arm64", "win-64"]
-version = "0.1.0"
-
-[tasks]
-
-[dependencies]
-```
+:::
 
 As a common requirement across all environments, let's add Python
 
 ```bash
 pixi add python
-```
-```
-✔ Added python >=3.13.5,<3.1
 ```
 
 Now, add `pytorch-cpu` to a `cpu` feature
@@ -475,18 +455,11 @@ Now, add `pytorch-cpu` to a `cpu` feature
 ```bash
 pixi add --feature cpu pytorch-cpu
 ```
-```
-✔ Added pytorch-cpu
-Added these only for feature: cpu
-```
 
 and then create a `cpu` environment that contains the `cpu` feature
 
 ```bash
 pixi workspace environment add --feature cpu cpu
-```
-```
-✔ Added environment cpu
 ```
 
 and then instantiate the `pytorch-cpu` package with a particular version and solve
@@ -494,12 +467,11 @@ and then instantiate the `pytorch-cpu` package with a particular version and sol
 ```bash
 pixi add --feature cpu pytorch-cpu
 ```
-```
-✔ Added pytorch-cpu >=2.7.1,<3
-Added these only for feature: cpu
-```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 9,10,11,12,13,14,15,16
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -516,7 +488,7 @@ pytorch-cpu = ">=2.7.1,<3"
 
 [environments]
 cpu = ["cpu"]
-```
+:::
 
 Now, for the GPU environment, add CUDA system-requirements for `linux-64` for the `gpu` feature
 
@@ -524,7 +496,10 @@ Now, for the GPU environment, add CUDA system-requirements for `linux-64` for th
 pixi workspace system-requirements add --feature gpu cuda 12
 ```
 
-```toml
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 15,16
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -544,53 +519,66 @@ cuda = "12"
 
 [environments]
 cpu = ["cpu"]
-```
+:::
 
 and create a `gpu` environment with the `gpu` feature
 
 ```bash
 pixi workspace environment add --feature gpu gpu
 ```
-```
-✔ Added environment gpu
-```
 
-```toml
-[workspace]
-channels = ["conda-forge"]
-name = "cuda-exercise"
-platforms = ["linux-64", "osx-arm64", "win-64"]
-version = "0.1.0"
-
-[tasks]
-
-[dependencies]
-python = ">=3.13.5,<3.14"
-
-[feature.cpu.dependencies]
-pytorch-cpu = ">=2.7.1,<3"
-
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 6
 [feature.gpu.system-requirements]
 cuda = "12"
 
 [environments]
 cpu = ["cpu"]
 gpu = ["gpu"]
-```
+:::
 
 then add the `cuda-version` metapackage and the `pytorch-gpu` pacakge for `linux-64` to the `gpu` feature
 
 ```bash
 pixi add --platform linux-64 --feature gpu 'cuda-version 12.9.*' pytorch-gpu
 ```
-```
-✔ Added cuda-version 12.9.*
-✔ Added pytorch-gpu >=2.7.1,<3
-Added these only for platform(s): linux-64
-Added these only for feature: gpu
+
+:::{code} toml
+:filename: pixi.toml
+:linenos:
+:emphasize-lines: 4,5,6
+[feature.gpu.system-requirements]
+cuda = "12"
+
+[feature.gpu.target.linux-64.dependencies]
+cuda-version = "12.9.*"
+pytorch-gpu = ">=2.7.1,<3"
+
+[environments]
+cpu = ["cpu"]
+gpu = ["gpu"]
+:::
+
+One can check the environment differences
+
+```bash
+pixi list --environment cpu
+pixi list --environment gpu
 ```
 
-```toml
+and activate shells with different environments loaded
+
+```bash
+pixi shell --environment cpu
+```
+
+So in 24 lines of TOML
+
+:::{code} toml
+:filename: pixi.toml
+:linenos:
 [workspace]
 channels = ["conda-forge"]
 name = "cuda-exercise"
@@ -615,35 +603,12 @@ pytorch-gpu = ">=2.7.1,<3"
 [environments]
 cpu = ["cpu"]
 gpu = ["gpu"]
-```
-
-One can check the environment differences
-
-```bash
-pixi list --environment cpu
-pixi list --environment gpu
-```
-
-and activate shells with different environments loaded
-
-```bash
-pixi shell --environment cpu
-```
-
-So in 24 lines of TOML
-
-```bash
-wc -l pixi.toml
-```
-```
-24 pixi.toml
-```
+:::
 
 we created separate CPU and GPU computational environments that are now fully reproducible with the associated `pixi.lock`!
 
-:::
 ::::
-
+:::::
 
 ::: {important} Further references
 
