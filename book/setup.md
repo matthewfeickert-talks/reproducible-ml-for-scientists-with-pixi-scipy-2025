@@ -26,10 +26,6 @@ This tutorial requires minimal software to be installed in advance:
 * [Brev CLI](https://docs.nvidia.com/brev/latest/brev-cli.html)
 * Highly recommend a IDE like [Visual Studio Code](https://code.visualstudio.com/) or [PyCharm](https://www.jetbrains.com/pycharm/).
 
-
-
-
-
 ### Web Platforms (optional, but encouraged)
 
 * [GitHub](https://github.com/)
@@ -127,7 +123,6 @@ To participate in the GPU component of the workshop with Brev on a Windows machi
 
 :::
 
-
 For the portion of the tutorial where GPUs will be used we'll be working on an [NVIDIA Brev instance](https://developer.nvidia.com/brev).
 To install the CLI API for Brev, we'll use [`pixi global`](https://pixi.sh/latest/global_tools/introduction/) so make sure you first have [Pixi installed](#install-pixi), as described above, and then run
 
@@ -200,6 +195,13 @@ brev login
 
 #### Prepare an NVIDIA Brev instance
 
+::: {warning} Resource use requires billing information
+
+Provisioning Brev instances requires billing information be added to your account.
+If you are running this at the in-person SciPy 2025 tutorial, **wait** to do these steps until after you are given the code at the start of the tutorial.
+
+:::
+
 Later on in the [SciPy 2025 tutorial](https://cfp.scipy.org/scipy2025/talk/GDN8PN/), we'll use a coupon code to provision a new Brev GPU instance environment.
 
 The particular configuration we'll be using is:
@@ -229,9 +231,8 @@ brev open pixi-cuda
 brev shell pixi-cuda
 ```
 
-[![brev-new-environment](./images/brev-new-environment-view.png)](https://brev.nvidia.com/environment/new)
-
 #### Prepare your Brev instance
+
 Once you have access to the Brev instance, you can use it like any other Linux machine
 and install any additional software you need.
 Please install the following software on your Brev instance:
