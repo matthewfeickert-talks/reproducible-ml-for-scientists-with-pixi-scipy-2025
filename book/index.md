@@ -15,7 +15,7 @@ The focus will be on applications using the PyTorch and JAX Python machine learn
 * Tutorial name: [Reproducible Machine Learning Workflows for Scientists with Pixi](https://matthewfeickert-talks.github.io/reproducible-ml-for-scientists-with-pixi-scipy-2025/)
 * Date: 2025-07-07
 * Time: 13:30 to 17:30
-* Location: Room 315
+* Location: Ballroom C
 
 ## Rough Outline
 
