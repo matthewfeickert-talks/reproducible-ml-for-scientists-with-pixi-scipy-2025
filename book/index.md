@@ -15,7 +15,7 @@ The focus will be on applications using the PyTorch and JAX Python machine learn
 * Tutorial name: [Reproducible Machine Learning Workflows for Scientists with Pixi](https://matthewfeickert-talks.github.io/reproducible-ml-for-scientists-with-pixi-scipy-2025/)
 * Date: 2025-07-07
 * Time: 13:30 to 17:30
-* Location: Room 315
+* Location: Ballroom C (Greater Tacoma Convention Center, 3rd Floor, 1500 Commerce St.)
 
 ## Rough Outline
 
@@ -81,4 +81,4 @@ As Linux containers are their own technology that can be quite complex, all Linu
 
 ## Acknowledgments
 
-This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/) via grant [G-2022-19347](https://sloan.org/grant-detail/g-2022-19347) from the Sloan Foundation, [prefix.dev GmbH](https://prefix.dev/), and [NVIDIA](https://www.nvidia.com/).
+This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/) via grant [G-2022-19347](https://sloan.org/grant-detail/g-2022-19347) from the Sloan Foundation, [prefix.dev GmbH](https://prefix.dev/), [NVIDIA](https://www.nvidia.com/), and the [University of Wisconsin&ndash;Madison Data Science Institute](https://dsi.wisc.edu/).
