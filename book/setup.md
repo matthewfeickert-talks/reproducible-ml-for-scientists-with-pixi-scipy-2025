@@ -26,10 +26,6 @@ This tutorial requires minimal software to be installed in advance:
 * [Brev CLI](https://docs.nvidia.com/brev/latest/brev-cli.html)
 * Highly recommend a IDE like [Visual Studio Code](https://code.visualstudio.com/) or [PyCharm](https://www.jetbrains.com/pycharm/).
 
-
-
-
-
 ### Web Platforms (optional, but encouraged)
 
 * [GitHub](https://github.com/)
