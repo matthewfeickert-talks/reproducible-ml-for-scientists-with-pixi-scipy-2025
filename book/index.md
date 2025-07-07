@@ -19,66 +19,37 @@ The focus will be on applications using the PyTorch and JAX Python machine learn
 
 ## Rough Outline
 
-**0:00 &ndash; 0:20 (20 min):**
+**00:00 &ndash; 00:05 (5 min):**
+* Personal Introductions
 
-* Overview of importance of, and challenges to, reproducible scientific workflows.
-* Introduction of `pixi` and `pixi` environment management philosophy.
+**00:05 &ndash; 00:15 (10 min):**
+* [Setup instructions](setup.md), setup your machine for the tutorial.
 
-**0:20 &ndash; 0:40 (20 min):**
+**00:15 &ndash; 00:30 (15 min):**
+* [Introduction to Philosophy](introduction.md), an overview of the philosophy behind this tutorial.
 
-* Work through the [`pixi` Python tutorial](https://pixi.sh/latest/tutorials/python/).
+**00:30 &ndash; 01:00 (30 min):**
+* [Pixi introduction](pixi.md), an overview of Pixi's features and capabilities.
 
-**0:40 &ndash; 1:00 (20 min):**
+**01:00 &ndash; 01:40 (40 min):**
+* [Pixi exercises](pixi-exercise.md), play around with Pixi and create a reproducible Python environment
 
-* Exercise 1: Create a multi-platform multi-environment `pixi` project to run a provided "Scientific Python" (e.g., SciPy, NumPy, Matplotlib) example workflow that does not use machine learning.
+**01:40 &ndash; 01:55 (15 min):**
+* Break, grab a snack and stretch your legs.
 
-**1:00 &ndash; 1:15 (15 min):**
+**01:55 &ndash; 02:35 (40 min):**
+* [Introduction to CUDA and CUDA conda packages](cuda-conda.md), the history and overview of how to use CUDA with Pixi and conda packages.
 
-* Break
+**02:35 &ndash; 02:45 (10 min):**
+* Break, grab a snack and stretch your legs.
 
-**1:15 &ndash; 1:30 (15 min):**
+**02:45 &ndash; 03:10 (25 min):**
+* [Intro to Machine Learning applications with Pixi](ml-example.md), an overview of how to use Pixi for machine learning applications, including PyTorch.
 
-* Discussion over solutions to Exercise 1.
-* Discuss and answer questions participants have.
+**03:10 &ndash; 03:30 (20 min):**
+* [General hardware acceleration using CUDA](cuda-hardware-acceleration.md), an overview of how to use CUDA for general hardware acceleration like replacing NumPy with CuPy.
 
-**1:30 &ndash; 2:50 (20 min):**
-
-* Introduction to the concepts of [conda-forge](https://github.com/conda-forge), the CUDA software stack on conda-forge, and [CUDA `system-requirements` in `pixi`](https://pixi.sh/latest/features/system_requirements/#using-cuda-in-pixi).
-
-**1:50 &ndash; 2:20 (30 min):**
-
-* Exercise 2: Create a `pixi` project to run an example PyTorch machine learning workflow on GPUs with CUDA `v12`.
-* Exercise 3: Extend the `pixi` project from Exercise 2 to provide a new environment to run an example JAX machine learning workflow on GPUs with CUDA v11.8.
-
-**2:20 &ndash; 2:35 (15 min):**
-
-* Break
-
-**2:35 &ndash; 2:55 (20 min):**
-
-* Discussion over solutions to Exercises 2 and 3.
-* Introduction to environments that install from multiple package indexes (e.g. conda-forge and PyPI).
-
-**2:55 &ndash; 3:15 (20 min):**
-
-* Exercise 4: Create a `pixi` project to run an example machine learning workflow on GPUs with CUDA that installs dependencies from both conda-forge and PyPI.
-* Discussion over solutions to Exercise 4.
-
-**3:15 &ndash; 3:25 (10 min):**
-
-* Very brief introduction the concepts of "production environments" and Linux containers.
-As Linux containers are their own technology that can be quite complex, all Linux container components of the tutorial will be pre-prepared for participants.
-
-**3:25 &ndash; 3:45 (20 min):**
-
-* Exercise 5: Containerize the `pixi` project environment from Exercise 2 in a Linux container image and run a Pytorch machine learning workflow on GPUs with the deployed container.
-
-**3:45 &ndash; 4:00 (15 min):**
-
-* Discussion over solutions to Exercise 5.
-* Time for participants to start exploring their own projects with `pixi`.
-* General question and answer time with instructor team.
-
-## Acknowledgments
+**03:30 &ndash; 04:00 (30 min):**
+* [Deployment using Linux containers](containers.md), an overview of how to use Pixi to create reproducible Linux CUDA container images.
 
 This tutorial was supported by the [US Research Software Sustainability Institute (URSSI)](https://urssi.us/) via grant [G-2022-19347](https://sloan.org/grant-detail/g-2022-19347) from the Sloan Foundation, [prefix.dev GmbH](https://prefix.dev/), [NVIDIA](https://www.nvidia.com/), and the [University of Wisconsin&ndash;Madison Data Science Institute](https://dsi.wisc.edu/).
