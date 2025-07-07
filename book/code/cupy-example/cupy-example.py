@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import numpy as np
 import cupy as cp
 
