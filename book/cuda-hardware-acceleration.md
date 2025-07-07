@@ -72,23 +72,8 @@ and you should now have the workspace.
 
 which gives us access to CuPy's hardware acceleration, as shown in this [example from the CuPy documentation](https://docs.cupy.dev/en/stable/user_guide/basic.html)
 
-:::{code} python
-:filename: cupy-example.py
-#!/usr/bin/env python3
-
-import numpy as np
-import cupy as cp
-
-# Array APIs are the same though operating on different hardware devices
-x_cpu = np.array([1, 2, 3])
-x_gpu = cp.array([1, 2, 3])
-
-l2_cpu = np.linalg.norm(x_cpu)
-l2_gpu = cp.linalg.norm(x_gpu)
-
-print(f"NumPy array {l2_cpu} on device: {x_cpu.device}")
-print(f"CuPy array {l2_gpu} on device: {x_gpu.device}")
-:::
+```{literalinclude} code/cupy-example.py
+```
 
 ```bash
 pixi run python cupy-example.py
@@ -97,3 +82,18 @@ pixi run python cupy-example.py
 NumPy array 3.7416573867739413 on device: cpu
 CuPy array 3.7416573867739413 on device: <CUDA Device 0>
 ```
+
+## CuDF Example
+
+There are other CUDA accelerated libraries for scientific Python as well.
+NVIDIA has created the [RAPIDS](https://rapids.ai/) data science collection of libraries for running end-to-end data science pipelines fully on GPUs with CUDA.
+One of the libraries is [CuDF](https://docs.rapids.ai/api/cudf/stable/) &mdash; a high level Python library for manipulating DataFrames on the GPU with Pandas-like idioms.
+
+::: {important} Further references
+
+* The [NVIDIA Accelerated Computing Hub](https://github.com/NVIDIA/accelerated-computing-hub) is an open source GitHub repository that serves as a curated collection of educational resources related to general purpose GPU programming.
+It contains many excellent examples.
+* In the tutorials session before this one (morning of 2025-07-07), [Katrina Riehl](https://github.com/nv-kriehl) taught [The Accelerated Python Developer's Toolbox](https://cfp.scipy.org/scipy2025/talk/KA7ZYR/) which covers CUDA and Python in-depth.
+* In the tutorials session before this one (morning of 2025-07-07), Allison Ding taught [Scaling Clustering for Big Data: Leveraging RAPIDS cuML](https://cfp.scipy.org/scipy2025/talk/WSSAU7/) which covers the cuML RAPIDS library.
+
+:::
