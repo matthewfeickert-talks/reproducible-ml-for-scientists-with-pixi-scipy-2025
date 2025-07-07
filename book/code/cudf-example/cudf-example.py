@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import pandas as pd
 import cudf
 
+# 1M Wikipedia pageview counts
 data_url = "https://raw.githubusercontent.com/NVIDIA/accelerated-computing-hub/2186298825b85ef38f08e779af7992b8d762289f/gpu-python-tutorial/data/pageviews_small.csv"
 
 # The semantics we know from Pandas
