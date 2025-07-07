@@ -37,15 +37,14 @@ and add the CUDA system requirements
 pixi workspace system-requirements add cuda 12
 ```
 
-Then add the CuPy dependencies for the target platform of `linux-64`.
+Then add the CuPy dependencies
 
 ```bash
-pixi add --platform linux-64 python cupy
+pixi add python cupy
 ```
 ```
 ✔ Added python >=3.13.5,<3.14
 ✔ Added cupy >=13.4.1,<14
-Added these only for platform(s): linux-64
 ```
 
 and you should now have the workspace.
@@ -116,13 +115,12 @@ pixi workspace channel add --prepend rapidsai
 Then add the CuDF dependencies for the target platform of `linux-64` (`requests` and `aiohttp` are for an example).
 
 ```bash
-pixi add --platform linux-64 cudf requests aiohttp
+pixi add cudf requests aiohttp
 ```
 ```
 ✔ Added cudf >=25.6.0,<26
 ✔ Added requests >=2.32.4,<3
 ✔ Added aiohttp >=3.12.13,<4
-Added these only for platform(s): linux-64
 ```
 
 and you should now have the workspace.
