@@ -9,13 +9,13 @@ cd ~/reproducible-ml-scipy-2025
 ```
 :::
 
-::::{tip} Exercise 1: Creating a project
+:::::{tip} Exercise 1: Creating a project
 1. Create a new Pixi project named `my-project` using the command line.
 2. Add `python` as a dependency to your project.
 3. Use the Pixi installed Python to print `"Hello, Pixi!"` to the console.
 4. Run a command to print the version of Python used in your project. You can see the location of the interpreter by running: `import sys;print(sys.executable)`
 
-:::{hint} Solution
+::::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -29,7 +29,7 @@ pixi run python -c 'print("Hello, Pixi!")'
 pixi run python -c 'import sys; print(sys.version); print(sys.executable)'
 ```
 Resulting `pixi.toml` file:
-```toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 [workspace]
@@ -43,11 +43,11 @@ version = "0.1.0"
 
 [dependencies]
 python = ">=3.13.5,<3.14"
-```
 :::
 ::::
+:::::
 
-::::{tip} Exercise 2: Dependencies
+:::::{tip} Exercise 2: Dependencies
 1. Make your project work for Windows, macOS, and Linux.
 2. Add `scipy` as a dependency through the command line.
 3. Add `numpy` as a dependency through the command line.
@@ -56,7 +56,7 @@ python = ">=3.13.5,<3.14"
 6. Add a `pypi` + `git` dependency on [`pytest`](https://github.com/pytest-dev/pytest) to your project.
 7. Visualize the locked dependencies in the command line.
 
-:::{hint} Solution
+::::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -78,7 +78,7 @@ pixi list -x
 pixi tree
 ```
 Resulting `pixi.toml` file:
-```{code} toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 3,5,12-18
@@ -100,16 +100,16 @@ fastqc = { version = ">=0.12.1,<0.13", channel = "bioconda" }
 [pypi-dependencies]
 pandas = ">=2.3.0, <3"
 pytest = { git = "https://github.com/pytest-dev/pytest" }
-```
 :::
 ::::
+:::::
 
-::::{tip} Exercise 3: Modifying dependencies
+:::::{tip} Exercise 3: Modifying dependencies
 1. Replace `pandas` with a conda dependency on `pandas` from the `conda-forge` channel. Hint: make sure it worked by checking the environment with `pixi list pandas`
 2. Require the `scipy` dependency to be version `1.15.1`.
 3. Make the `pytest` use version `8.3.1` from the `git` repository.
 
-:::{hint} Solution
+::::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -123,7 +123,7 @@ pixi add scipy==1.15.1
 pixi add pytest --pypi --git https://github.com/pytest-dev/pytest.git --tag 8.3.1
 ```
 Resulting `pixi.toml` file:
-```{code} toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 12,15,18
@@ -145,9 +145,9 @@ pandas = ">=2.3.0,<3"
 
 [pypi-dependencies]
 pytest = { git = "https://github.com/pytest-dev/pytest.git", tag = "8.3.1" }
-```
 :::
 ::::
+:::::
 
 :::::{tip} Exercise 4: Multiple environments
 1. Make `pytest` part of the `test` feature.
@@ -192,7 +192,7 @@ pixi list -x -e test
 pixi list -x
 ```
 Resulting `pixi.toml` file:
-```{code} toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 17,20-26
@@ -222,7 +222,7 @@ ruff = "*"
 test = { features = ["test"], solve-group = "group1" }
 format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
-```
+:::
 ::::
 :::::
 
@@ -235,7 +235,7 @@ default = { solve-group = "group1" }
 6. Add the task `fmt` to the `format` feature that runs `ruff --version`.
 7. Run the `fmt` task.
 
-:::{hint} Solution
+::::{hint} Solution
 :class: dropdown
 ```bash
 # 1
@@ -257,7 +257,7 @@ pixi task add fmt 'ruff --version' --feature format
 pixi run fmt
 ```
 Resulting `pixi.toml` file:
-```{code} toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 9-12
@@ -294,8 +294,8 @@ fmt = "ruff --version"
 test = { features = ["test"], solve-group = "group1" }
 format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
-```
 :::
+::::
 :::::
 
 :::::{tip} Exercise 6: Activation
@@ -327,7 +327,7 @@ echo $MY_ENV_VAR
 echo %MY_ENV_VAR%
 ```
 Resulting `pixi.toml` file:
-```{code} toml
+:::{code} toml
 :filename: pixi.toml
 :linenos:
 :emphasize-lines: 8,9,16
@@ -368,7 +368,7 @@ fmt = "ruff --version"
 test = { features = ["test"], solve-group = "group1" }
 format = { features = ["format"], no-default-feature = true }
 default = { solve-group = "group1" }
-```
+:::
 ::::
 :::::
 
