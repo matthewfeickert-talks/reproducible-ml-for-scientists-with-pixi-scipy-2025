@@ -7,10 +7,8 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
+cupy = ">=13.4.1,<14"
 
 [system-requirements]
 cuda = "12"
-
-[target.linux-64.dependencies]
-python = ">=3.13.5,<3.14"
-cupy = ">=13.4.1,<14"
