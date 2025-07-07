@@ -170,13 +170,13 @@ ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 With this `Dockerfile` the container image can then be built with [`docker build`](https://docs.docker.com/reference/cli/docker/buildx/build/).
 
-::::{tip} Exercise: Create a Dockerfile
-:class: dropdown
+:::::{tip} Exercise: Create a Dockerfile
 Write a `Dockerfile` that will create a Linux container with the `gpu` environment from the previous exercises Pixi workspace.
 
-:::{hint} Solution
+::::{hint} Solution
 :class: dropdown
-```dockerfile
+:::{code} dockerfile
+:filename: cuda-exercise/Dockerfile
 FROM ghcr.io/prefix-dev/pixi:noble AS build
 
 WORKDIR /app
@@ -199,9 +199,9 @@ COPY --from=build /app/.pixi/.condapackageignore /app/.pixi/.condapackageignore
 COPY --from=build --chmod=0755 /app/entrypoint.sh /app/entrypoint.sh
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-```
 :::
 ::::
+:::::
 
 ## Automation with GitHub Actions workflows
 
