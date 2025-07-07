@@ -130,13 +130,15 @@ pixi workspace channel add --prepend rapidsai
 ✔ Added rapidsai (https://conda.anaconda.org/rapidsai/)
 ```
 
-Then add the CuDF dependencies for the target platform of `linux-64`.
+Then add the CuDF dependencies for the target platform of `linux-64` (`requests` and `aiohttp` are for an example).
 
 ```bash
-pixi add --platform linux-64 cudf
+pixi add --platform linux-64 cudf requests aiohttp
 ```
 ```
 ✔ Added cudf >=25.6.0,<26
+✔ Added requests >=2.32.4,<3
+✔ Added aiohttp >=3.12.13,<4
 Added these only for platform(s): linux-64
 ```
 
