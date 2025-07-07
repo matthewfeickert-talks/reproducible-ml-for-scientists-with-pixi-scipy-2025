@@ -5,8 +5,9 @@ import cupy as cp
 x_cpu = np.array([1, 2, 3])
 x_gpu = cp.array([1, 2, 3])
 
+# Compute norms for both arrays
 l2_cpu = np.linalg.norm(x_cpu)
 l2_gpu = cp.linalg.norm(x_gpu)
 
-print(f"NumPy array {l2_cpu} on device: {x_cpu.device}")
-print(f"CuPy array {l2_gpu} on device: {x_gpu.device}")
+print(f"NumPy array norm {l2_cpu} on device: {x_cpu.device}")
+print(f"CuPy array norm {l2_gpu} on device: {x_gpu.device}")
