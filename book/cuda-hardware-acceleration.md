@@ -28,7 +28,7 @@ cd ~/reproducible-ml-scipy-2025/cupy-example
 add all the platforms we'd like people to be able to develop for, even though this will be run on `linux-64`
 
 ```bash
-pixi workspace platform add linux-64 osx-arm64 win-64
+pixi workspace platform add linux-64 win-64
 ```
 
 and add the CUDA system requirements
@@ -92,10 +92,10 @@ pixi init ~/reproducible-ml-scipy-2025/cudf-example
 cd ~/reproducible-ml-scipy-2025/cudf-example
 ```
 
-add all the platforms we'd like people to be able to develop for, even though this will be run on `linux-64`
+As CuDF is available as a conda package only for `linux-64` we'll just set that as the platform
 
 ```bash
-pixi workspace platform add linux-64 osx-arm64 win-64
+pixi workspace platform add linux-64
 ```
 
 and add the CUDA system requirements
