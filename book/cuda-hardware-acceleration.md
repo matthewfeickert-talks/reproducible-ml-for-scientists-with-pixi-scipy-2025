@@ -28,7 +28,7 @@ cd ~/reproducible-ml-scipy-2025/cupy-example
 add all the platforms we'd like people to be able to develop for, even though this will be run on `linux-64`
 
 ```bash
-pixi workspace platform add linux-64 osx-arm64 win-64
+pixi workspace platform add linux-64 win-64
 ```
 
 and add the CUDA system requirements
@@ -37,15 +37,14 @@ and add the CUDA system requirements
 pixi workspace system-requirements add cuda 12
 ```
 
-Then add the CuPy dependencies for the target platform of `linux-64`.
+Then add the CuPy dependencies
 
 ```bash
-pixi add --platform linux-64 python cupy
+pixi add python cupy
 ```
 ```
 ✔ Added python >=3.13.5,<3.14
 ✔ Added cupy >=13.4.1,<14
-Added these only for platform(s): linux-64
 ```
 
 and you should now have the workspace.
@@ -92,10 +91,10 @@ pixi init ~/reproducible-ml-scipy-2025/cudf-example
 cd ~/reproducible-ml-scipy-2025/cudf-example
 ```
 
-add all the platforms we'd like people to be able to develop for, even though this will be run on `linux-64`
+As CuDF is available as a conda package only for `linux-64` we'll just set that as the platform
 
 ```bash
-pixi workspace platform add linux-64 osx-arm64 win-64
+pixi workspace platform add linux-64
 ```
 
 and add the CUDA system requirements
@@ -116,13 +115,12 @@ pixi workspace channel add --prepend rapidsai
 Then add the CuDF dependencies for the target platform of `linux-64` (`requests` and `aiohttp` are for an example).
 
 ```bash
-pixi add --platform linux-64 cudf requests aiohttp
+pixi add cudf requests aiohttp
 ```
 ```
 ✔ Added cudf >=25.6.0,<26
 ✔ Added requests >=2.32.4,<3
 ✔ Added aiohttp >=3.12.13,<4
-Added these only for platform(s): linux-64
 ```
 
 and you should now have the workspace.
