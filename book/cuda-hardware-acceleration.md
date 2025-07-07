@@ -23,6 +23,7 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
+python = ">=3.13.5,<3.14"
 
 [system-requirements]
 cuda = "12"
@@ -51,6 +52,15 @@ and add the CUDA system requirements
 
 ```bash
 pixi workspace system-requirements add cuda 12
+```
+
+Then add Python as a common dependency to help ensure the latest Python is picked up
+
+```bash
+pixi add python
+```
+```
+✔ Added python >=3.13.5,<3.14
 ```
 
 and then add the CuPy dependencies for the target platform of `linux-64`.
