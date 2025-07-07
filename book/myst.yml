@@ -36,7 +36,7 @@ project:
   github: https://github.com/matthewfeickert-talks/reproducible-ml-for-scientists-with-pixi-scipy-2025
   abbreviations:
     CLI : "Command Line Interface"
-    TOML: "Tom’s Obvious, Minimal Language"
+    TOML: "Tom's Obvious, Minimal Language"
     CUDA: "Compute Unified Device Architecture"
     GPU: "Graphical Processing Unit"
     CPU: "Central Processing Unit"
@@ -52,6 +52,7 @@ project:
     - file: pixi-exercise.md
     - file: cuda-conda.md
     - file: ml-example.md
+    - file: cuda-hardware-acceleration.md
     - file: containers.md
     # appendix
     - file: glossary.md
