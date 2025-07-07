@@ -54,8 +54,8 @@ To give a little background why Pixi is designed this way, let's take a look at 
 - Keeps dependencies close to the project
 
 **Cons:**
-- Can use more disk space (multiple environments)
-- Slightly more setup per project
+- Potentially use more disk space (multiple environments)
+- Managing environments over multiple projects is less straightforward.
 :::
 :::{tab-item}Environment-based workflow
 **Supporting tools:** `conda`, `mamba`, `micromamba`, `pip`, `pipenv`, `uv pip`
@@ -65,7 +65,7 @@ To give a little background why Pixi is designed this way, let's take a look at 
 - Isolated environments (no conflicts)
 
 **Cons:**
-- Risk of dependency conflicts between projects
+- You keep a mental model of what is installed in which environment
 - Harder to reproduce exact environments later
 
 :::
