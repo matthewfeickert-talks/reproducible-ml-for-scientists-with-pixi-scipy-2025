@@ -91,7 +91,7 @@ One of the libraries is [CuDF](https://docs.rapids.ai/api/cudf/stable/) &mdash; 
 
 ### Constructing the workspace
 
-CuDF is not available on conda-forge, but it is available on the Python Package Index (PyPI) as [`cudf-cu12`](https://pypi.org/project/cudf-cu12/) and on the [`rapidsai` conda channel on Anaconda.org](https://anaconda.org/rapidsai/cudf).
+CuDF is not available on conda-forge, but it is available on the Python Package Index (PyPI) as [`cudf-cu12`](https://pypi.org/project/cudf-cu12/) and on the [`rapidsai` conda channel on Anaconda.org as `cudf`](https://anaconda.org/rapidsai/cudf).
 We can install it through either method, but to keep working with conda package, we'll create a workspace that installs it from the `rapdsai` conda channel.
 
 :::: {tip} Construct the CuDF workspace
@@ -144,6 +144,8 @@ and you should now have the workspace.
 
 :::
 ::::
+
+For time today, we won't cover CuDF fully, but there are [user guides for how to use CuDF](https://github.com/NVIDIA/accelerated-computing-hub/blob/2186298825b85ef38f08e779af7992b8d762289f/gpu-python-tutorial/6.0_cuDF.ipynb), as seen below.
 
 ::: {important} Further references
 

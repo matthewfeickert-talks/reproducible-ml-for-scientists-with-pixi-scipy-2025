@@ -13,3 +13,5 @@ cuda = "12"
 
 [target.linux-64.dependencies]
 cudf = ">=25.6.0,<26"
+requests = ">=2.32.4,<3"
+aiohttp = ">=3.12.13,<4"
