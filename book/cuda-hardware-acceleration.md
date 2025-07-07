@@ -89,6 +89,62 @@ There are other CUDA accelerated libraries for scientific Python as well.
 NVIDIA has created the [RAPIDS](https://rapids.ai/) data science collection of libraries for running end-to-end data science pipelines fully on GPUs with CUDA.
 One of the libraries is [CuDF](https://docs.rapids.ai/api/cudf/stable/) &mdash; a high level Python library for manipulating DataFrames on the GPU with Pandas-like idioms.
 
+### Constructing the workspace
+
+CuDF is not available on conda-forge, but it is available on the Python Package Index (PyPI) as [`cudf-cu12`](https://pypi.org/project/cudf-cu12/) and on the [`rapidsai` conda channel on Anaconda.org](https://anaconda.org/rapidsai/cudf).
+We can install it through either method, but to keep working with conda package, we'll create a workspace that installs it from the `rapdsai` conda channel.
+
+:::: {tip} Construct the CuDF workspace
+
+```{literalinclude} code/cudf-example/pixi.toml
+```
+
+::: {hint} Walkthrough if needed
+:class: dropdown
+
+Initialize the workspace
+
+```bash
+pixi init ~/reproducible-ml-scipy-2025/cudf-example
+cd ~/reproducible-ml-scipy-2025/cudf-example
+```
+
+add all the platforms we'd like people to be able to develop for, even though this will be run on `linux-64`
+
+```bash
+pixi workspace platform add linux-64 osx-arm64 win-64
+```
+
+and add the CUDA system requirements
+
+```bash
+pixi workspace system-requirements add cuda 12
+```
+
+and then add the `rapidsai` conda channel but note that for things to work we need it to have **higher** priority than conda-forge
+
+```bash
+pixi workspace channel add --prepend rapidsai
+```
+```
+✔ Added rapidsai (https://conda.anaconda.org/rapidsai/)
+```
+
+Then add the CuDF dependencies for the target platform of `linux-64`.
+
+```bash
+pixi add --platform linux-64 cudf
+```
+```
+✔ Added cudf >=25.6.0,<26
+Added these only for platform(s): linux-64
+```
+
+and you should now have the workspace.
+
+:::
+::::
+
 ::: {important} Further references
 
 * The [NVIDIA Accelerated Computing Hub](https://github.com/NVIDIA/accelerated-computing-hub) is an open source GitHub repository that serves as a curated collection of educational resources related to general purpose GPU programming.
