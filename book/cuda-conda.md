@@ -498,7 +498,7 @@ pixi workspace environment add --feature cpu cpu
 and then instantiate the `pytorch-cpu` package with a particular version and solve
 
 ```bash
-pixi add --feature cpu pytorch-cpu
+pixi upgrade --feature cpu
 ```
 
 :::{code} toml
