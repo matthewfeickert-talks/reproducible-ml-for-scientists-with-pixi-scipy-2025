@@ -15,9 +15,9 @@ There is one very straightforward solution:
 
 That's a nice and simple story, and it can work!
 However, in most realistic scenarios the worker compute nodes that are executing code share resource pools of storage and memory and are regulated to smaller allotments of both.
-CUDA binaries are relatively large files and amount of memory and storage to just unpack them can easily exceed a standard 2 GB memory limit on most high throughput computing (HTC) facility worker nodes.
+CUDA binaries are relatively large files and amount of memory and storage to just unpack them can easily exceed a standard 2 GB memory limit on most high-throughput computing (HTC) facility worker nodes.
 This also requires direct access to the public internet, or for you to setup a [S3 object store](https://pixi.sh/latest/deployment/s3/) behind your compute facility's firewall with all of your conda packages mirrored into it.
-In many scenarios, public internet access at HTC and high performance computing (HPC) facilities is limited to only a select "allow list" of websites or it might be fully restricted for users.
+In many scenarios, public internet access at HTC and high-performance computing (HPC) facilities is limited to only a select "allow list" of websites or it might be fully restricted for users.
 
 ## Building Linux containers with Pixi environments
 
