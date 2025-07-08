@@ -87,7 +87,7 @@ pixi workspace environment add --feature cpu cpu
 ✔ Added environment cpu
 ```
 
-and insatiate it with particular versions
+and instantiate it with particular versions
 
 ```bash
 pixi upgrade --feature cpu
