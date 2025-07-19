@@ -645,11 +645,12 @@ we created separate CPU and GPU computational environments that are now fully re
 
 ::: {important} Further references
 
-[Wolf Vollprecht](https://github.com/wolfv) of prefix.dev GmbH has written two blog posts on topics covered in this section that provide an excellent overview and summary.
+[Wolf Vollprecht](https://github.com/wolfv) of prefix.dev GmbH has written blog posts on topics covered in this section that provide an excellent overview and summary.
 You are highly encouraged to read them!
 
 * [What is a Conda package, actually?](https://prefix.dev/blog/what-is-a-conda-package) (2025-06-11)
 * [Virtual Packages in the Conda ecosystem](https://prefix.dev/blog/virtual-packages-in-the-conda-ecosystem) (2025-06-18)
+* [What linking means when installing a Conda package](https://prefix.dev/blog/what-linking-means-when-installing-a-conda-package) (2025-07-17)
 
 If you would also like a useful summary of different things related to CUDA, check out Modal's summary website of CUDA focused GPU concepts.
 
