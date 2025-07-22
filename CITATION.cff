@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "Please cite the following works when using this software."
+type: software
+authors:
+- family-names: "Feickert"
+  given-names: "Matthew"
+  orcid: "https://orcid.org/0000-0003-4124-7862"
+  affiliation: "University of Wisconsin-Madison"
+- family-names: "Arts"
+  given-names: "Ruben"
+  affiliation: "prefix.dev GmbH"
+- family-names: "Kirkham"
+  given-names: "John"
+  affiliation: "NVIDIA"
+title: "Reproducible Machine Learning Workflows for Scientists with Pixi"
+doi: 10.5281/zenodo.16320203
+repository-code: "https://github.com/matthewfeickert-talks/reproducible-ml-for-scientists-with-pixi-scipy-2025/releases/tag/scipy-2025"
+url: "https://matthewfeickert-talks.github.io/reproducible-ml-for-scientists-with-pixi-scipy-2025/"
+keywords:
+  - reproducible
+  - machine learning
+  - pixi
+  - cuda
+  - python
+  - scipy conference
+license: "BSD-3-Clause"

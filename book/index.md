@@ -2,6 +2,8 @@
 
 Taught at [SciPy 2025](https://www.scipy2025.scipy.org/) as a [tutorial](https://cfp.scipy.org/scipy2025/talk/GDN8PN/) on Monday July 7th, 2025
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16320203.svg)](https://doi.org/10.5281/zenodo.16320203)
+
 ## Abstract
 
 Scientific researchers need reproducible software environments for complex applications that can run across heterogeneous computing platforms.
