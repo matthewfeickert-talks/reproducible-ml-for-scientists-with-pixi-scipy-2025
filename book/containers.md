@@ -376,6 +376,6 @@ Let's step through the `docker run` command to understand what's happening.
 
 For today we're focusing on Docker containers, but if you run your workflows at High-Throughput Computing (HTC) or High-Performance Computing (HPC) centers with orchestration systems like HTCondor or SLURM you will probably be restricted to using a different Linux container system called Apptainer.
 
-The [Reproducible Machine Learning Workflows for Scientists](https://carpentries-incubator.github.io/reproducible-ml-workflows/) Carpentries Incubator lesson has [further information and examples for using Apptainer with these workflows](https://carpentries-incubator.github.io/reproducible-ml-workflows/pixi_deployment.html).
+The [Reproducible Machine Learning Workflows for Scientists](https://carpentries-incubator.github.io/reproducible-ml-workflows/) Carpentries Incubator lesson has [further information and examples for using Apptainer with these workflows](https://carpentries-incubator.github.io/reproducible-ml-workflows/pixi-deployment.html).
 
 :::
