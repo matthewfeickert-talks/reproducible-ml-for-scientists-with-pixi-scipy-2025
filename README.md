@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16320203.svg)](https://doi.org/10.5281/zenodo.16320203)
 
+[Tutorial recording on YouTube](https://www.youtube.com/watch?v=8AYp3MlRSNA)
+
 ## Development
 
 1. Install [Pixi](https://pixi.sh/)

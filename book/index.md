@@ -4,6 +4,8 @@ Taught at [SciPy 2025](https://www.scipy2025.scipy.org/) as a [tutorial](https:/
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16320203.svg)](https://doi.org/10.5281/zenodo.16320203)
 
+[Tutorial recording on YouTube](https://www.youtube.com/watch?v=8AYp3MlRSNA)
+
 ## Abstract
 
 Scientific researchers need reproducible software environments for complex applications that can run across heterogeneous computing platforms.
